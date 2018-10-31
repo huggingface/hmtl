@@ -1,0 +1,3 @@
+[submodule "SentEval"]
+	path = SentEval
+	url = https://github.com/facebookresearch/SentEval

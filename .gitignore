@@ -1,0 +1,16 @@
+**.DS_Store
+**/.DS_Store
+
+*.pyc
+*.pyo
+
+__pycache__/
+
+data/*
+serialization_dirs/
+nohup_logs/
+.env/
+
+*.ipynb
+*.vscode
+.ipynb_checkpoints
