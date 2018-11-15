@@ -101,6 +101,7 @@ class HuggingNlp {
 	endpoint: string;
 	onStart   = () => {};
 	onSuccess = () => {};
+	private requests: XMLHttpRequest[] = [];
 	
 	constructor(endpoint: string, opts: any) {
 		this.endpoint = endpoint;
@@ -130,6 +131,12 @@ class HuggingNlp {
 		}
 	}
 	
+	abortAllPending() {
+		for (const r of this.requests) {
+			r.abort();
+		}
+		this.requests = [];
+	}
 	parse(text: string) {
 		this.onStart();
 		
@@ -147,6 +154,7 @@ class HuggingNlp {
 			}
 		};
 		request.send();
+		this.requests.push(request);
 	}
 	dummyParse() {
 		this.onStart();

@@ -15,8 +15,12 @@ const DEFAULT_NLP_TEXT = () => {
 	return items[Math.floor(Math.random()*items.length)];
 }
 
-const loading = () => {
-	document.body.classList.toggle('loading');
+const toggleLoading = (on: boolean) => {
+	if (on) {
+		document.body.classList.add('loading');
+	} else {
+		document.body.classList.remove('loading');
+	}
 };
 
 const toggleDebug = () => {
@@ -30,8 +34,8 @@ const toggleDebug = () => {
 };
 
 const nlp = new HuggingNlp(ENDPOINT, {
-	onStart: loading,
-	onSuccess: loading,
+	onStart:   () => toggleLoading(true),
+	onSuccess: () => toggleLoading(false),
 });
 
 const getQueryVar = (key: string) => {
@@ -69,6 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	const $form         = document.querySelector('form.js-form') as HTMLFormElement;
 	const $checkbox     = document.querySelector('.js-checkbox') as HTMLElement;
 	
+	let pendingText: string | undefined;
+	const __launchParseRequest = (text: string) => {
+		if (text === pendingText) {
+			return ;
+		}
+		pendingText = text;
+		nlp.abortAllPending();
+		nlp.parse(text);
+		// nlp.dummyParse();
+		updateLinks(text);
+	};
+	
+	
 	{
 		// Initial text
 		const queryText = getQueryVar('text');
@@ -76,16 +93,25 @@ document.addEventListener('DOMContentLoaded', () => {
 			$input.value = queryText;
 		}
 		const text = queryText || DEFAULT_NLP_TEXT();
-		nlp.parse(text);
-		// nlp.dummyParse();
-		updateLinks(text);
+		__launchParseRequest(text);
 	}
 	
-	$input.addEventListener('keydown', (evt) => {
+	
+	const __checkInstantSearch = () => {
+		const text = $input.value;
+		if (text !== "" && /[^\w]$/.test(text)) {
+			console.log(`lauching instant search with "${text}"`);
+			__launchParseRequest(text);
+		}
+	};
+	
+	$input.addEventListener('keyup', (evt) => {
 		if (evt.charCode === 13) {
 			// 13 is the Enter key
 			evt.preventDefault();
 			$form.submit();
+		} else {
+			__checkInstantSearch();
 		}
 	});
 	
@@ -95,8 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			? $input.value
 			: DEFAULT_NLP_TEXT();
 		updateURL(text);
-		nlp.parse(text);
-		updateLinks(text);
+		__launchParseRequest(text);
 	});
 	
 	// $checkbox.addEventListener('click', () => {
