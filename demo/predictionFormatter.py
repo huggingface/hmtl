@@ -4,9 +4,15 @@ from allennlp.data.dataset_readers.dataset_utils.span_utils import bioul_tags_to
 import copy
 
 def find_indices(lst, condition):
+    '''
+    Find the indices of elements in a list `lst` that match a condition.
+    '''
     return [i for i, elem in enumerate(lst) if condition(elem)]
 
 def expand_arg(relation, arg_nb, n_c, formatted_relation):
+    '''
+    Update formatted_relation to take into account the possible expansion of relation arguments.
+    '''
     arg_str = "arg{}".format(arg_nb)
     arg = (relation[arg_str + "_begin_char"], 
             relation[arg_str + "_end_char"], 
@@ -24,6 +30,10 @@ def expand_arg(relation, arg_nb, n_c, formatted_relation):
         formatted_relation[arg_str + "_end_token"] = relation.get(arg_str + "_index")
 
 def check_overlapping(relation, formatted_relation):
+    '''
+    Check if there is no overlapping between the two expanded arguments of a relation.
+    If there is an overlap, we drop the expansion for the relation.
+    '''
     arg1_b, arg1_e = formatted_relation["arg1_begin_char"], formatted_relation["arg1_end_char"]
     arg2_b, arg2_e = formatted_relation["arg2_begin_char"], formatted_relation["arg2_end_char"]
     
@@ -40,6 +50,10 @@ def check_overlapping(relation, formatted_relation):
         return formatted_relation  
 
 class predictionFormatter:
+    '''
+    A class that format the prediction returned by HMTL model.
+    If necessary, it also expands
+    '''
     def __init__(self):
         pass
         
@@ -128,7 +142,10 @@ class predictionFormatter:
         return formatted_predictions
         
     def expand_relations(self, predictions, doc):
-        ### Simple heuristic to expand relations using a dependecy tree ###
+        '''
+        HMTL predicts the relation between the last head tokens.
+        This is a simple heuristic to expand relations using a dependecy tree.
+        '''
         if "relation_arcs" in predictions:            
             predictions["relation_arcs_expanded"] = []
             noun_chunks = {}
@@ -149,7 +166,10 @@ class predictionFormatter:
         return predictions
         
     def expand_emd(self, predictions, doc):
-        ### Simple heuristic to expand entity mentions using a dependecy tree (from spacy) ###
+        '''
+        HMTL predicts the heads of a mention.
+        Simple heuristic to expand entity mentions using a dependecy tree.
+        '''
         if "emd" in predictions:            
             noun_chunks = {}
             for chunk in doc.noun_chunks:
@@ -175,7 +195,9 @@ class predictionFormatter:
         return predictions
         
     def expand(self, predictions, doc):
-        ### Perform both EMD and Relation expansion ###
+        '''
+        Perform both EMD and Relation expansion
+        '''
         predictions = self.expand_relations(predictions, doc)
         predictions = self.expand_emd(predictions, doc)
         

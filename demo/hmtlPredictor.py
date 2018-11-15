@@ -52,7 +52,7 @@ def is_only_emoji(text):
     
 def filter_messages(input_text, sent): 
     '''
-    Filter messages which are either too long or 
+    Filter messages which are either too long or only emojis.
     '''   
     # Filter messages which are not long enough or too long
     if len(input_text) >= MAX_STRING_SIZE:
@@ -91,7 +91,7 @@ def create_instance(sentence, vocab, token_indexers):
 def load_model(model_name = "conll_full_elmo"):
     '''
     Load both vocabulary and model and create and instance of
-    huggingNLP full model.
+    HMTL full model.
     '''
     if model_name not in ["conll_small_elmo", "conll_medium_elmo", "conll_full_elmo"]:
         raise ValueError(f"{model_name} is not a valid name of model.")
@@ -125,7 +125,7 @@ def load_model(model_name = "conll_full_elmo"):
     
 class HMTLPredictor:
     '''
-    Predictor class for huggingNLP full model.
+    Predictor class for HMTL full model.
     '''
     def __init__(self, model_name = "conll_full_elmo"):
         model, vocab, token_indexers = load_model(model_name = model_name)
@@ -135,7 +135,11 @@ class HMTLPredictor:
         self.formatter = predictionFormatter()
         self.nlp = spacy.load("en_core_web_sm")
     
-    def predict(self, input_text, raw_format = False):        
+    def predict(self, input_text, raw_format = False):  
+        '''
+        Take an input text and compute its prediction with HMTL model.
+        If sentence is 2 tokens or less, coreference is not called.
+        '''      
         with torch.no_grad():
             self.model.eval()
             
@@ -176,6 +180,9 @@ class HMTLPredictor:
         
         
     def inference(self, batch, required_tasks):
+        '''
+        Fast inference of HMTL.
+        '''
         # pylint: disable=arguments-differ
         
         final_output = {}
@@ -332,11 +339,17 @@ class HMTLPredictor:
        
         
     def decode(self, task_output, task_name: str = "ner"):
+        '''
+        Decode the predictions.
+        '''
         tagger = getattr(self.model, "_tagger_%s" % task_name)
         return tagger.decode(task_output)
         
         
     def parse_text(self, input_text):
+        '''
+        Tokenized the input sentence, extract the tokens and their first character index in the sentence.
+        '''
         doc = self.nlp(input_text)
         sent = [word.string.strip() for word in doc]
         sent_char_offset = [word.idx for word in doc]
@@ -344,6 +357,9 @@ class HMTLPredictor:
     
     
     def fallback_prediction(self, input_text, sent):
+        '''
+        If message is filtered (message is too long or emoji), return a default API output.
+        '''
         return {"text": input_text,
                 "tokenized_text": sent,
                 "ner": [[]],
