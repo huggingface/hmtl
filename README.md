@@ -1,6 +1,6 @@
 # HMTL (Hierarchical Multi-Task Learning model) 
 
-*A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks*\
+__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__\
 Victor SANH, Thomas WOLF, Sebastian RUDER\
 AAAI 2019
 
