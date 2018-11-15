@@ -51,7 +51,7 @@ We used [SentEval](https://github.com/facebookresearch/SentEval) to assess the l
 
 To download the pre-trained embeddings we used in HMTL, you can simply launch the script `./script/data_setup.sh`.
 
-We do not attached the datasets used to train HMTL for licensing reasons, but we invite you to collect them by yourself: [OntoNotes 5.0](https://catalog.ldc.upenn.edu/LDC2013T19), [CoNLL2003](https://www.clips.uantwerpen.be/conll2003/ner/), and [ACE2005](https://catalog.ldc.upenn.edu/LDC2006T06). The configuration files expect the datasets to be placed in the `data/` folder.
+We do not attach the datasets used to train HMTL for licensing reasons, but we invite you to collect them by yourself: [OntoNotes 5.0](https://catalog.ldc.upenn.edu/LDC2013T19), [CoNLL2003](https://www.clips.uantwerpen.be/conll2003/ner/), and [ACE2005](https://catalog.ldc.upenn.edu/LDC2006T06). The configuration files expect the datasets to be placed in the `data/` folder.
 
 ## References
 

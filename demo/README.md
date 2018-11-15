@@ -1,14 +1,14 @@
-# huggingNLP
+# 🎮 Demo: HMTL (Hierarchical Multi-Task Learning model) 
 
 ## Introduction
 
-HMTL is an open-source library for resolving four fundamental tasks in NLP, namely Named Entity Recognition, Entity Mention Detection, Relation Extraction and Coreference Resolution using multi-task learning.
+This is a demonstration of our NLP system: HMTL is a neural model for resolving four fundamental tasks in NLP, namely *Named Entity Recognition*, *Entity Mention Detection*, *Relation Extraction* and *Coreference Resolution* using multi-task learning.
 
 For a brief introduction to multi-task learning, you can refer to our blog post (LINK TO COME). Each of the four tasks considered is detailed in the following section. 
 
-The web interface for the demo can be found here () for you to try and play with it. HMTL comes with the web visualization client if you prefer to run it on your own.
+The web interface for the demo can be found here (LINK TO COME) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
 
-<img src="https://github.com/huggingface/hmtl/demo/blob/master/HMTL_demo.png" alt="HMTL Demo" width="600"/>
+<img src="https://github.com/huggingface/hmtl/blob/master/demo/HMTL_demo.png" alt="HMTL Demo" width="600"/>
 
 ## Setup
 
@@ -17,22 +17,39 @@ The demo (LINK TO COME) is based on Python 3.6 and [AllenNLP](https://github.com
 The easiest way to setup a clean and working environment with the necessary dependencies is to refer to the setup section in the [parent folder](https://github.com/huggingface/hmtl#dependecies-and-installation).
 A few supplementary dependecies are listed in `requirements.txt`  and are required to run the demo.
 
-We also release three pre-trained HMTL models.
+We also release three pre-trained HMTL models on English corporas. The three models essentially differ by the size of the ELMo embeddings used and thus the size of the model. The bigger the model, the higher the performance:
 
-| Model Name | NER (F1) | EMD (F1) | RE (F1) | CR(F1 on CoNLL2012) | Description |
+| Model Name | NER (F1) | EMD (F1) | RE (F1) | CR(F1) | Description |
 | --- | --- | --- | --- | --- | --- |
 | conll_small_elmo | 85.73 | 83.51 | 58.40 | 62.85 | Small version of ELMo |
 | conll_medium_elmo | 86.41 | 84.02 | 58.78 | 61.62 | Medium version of ELMo |
 | conll_full_elmo _(default model)_ | 86.40 | 85.59 | 61.37 | 62.26 | Original version of ELMo |
 
+To download the pre-trained models, please install [git lfs](https://git-lfs.github.com/) and do a `git lfs pull`. The weights of the model will be saved in the `model_dumps` folder.
 
 ## Description of the tasks
 
 ### Named Entity Recognition (NER)
+
+_Named Entity Recognition_ aims at identifying and clasifying named entities (real-world object, such as persons, locations, etc. that can be denoted with a proper name).
+
+<span style="color:blue">Homer Simpson^(_PERS)</span> lives in <span style="color:red">Springfield^(_LOC)</span> with his wife and kids.
+
+HMTL is trained on OntoNotes 5.0 and can recognized various types (18) of named entities: _PERSON_, _NORP_, _FAC_, _ORG_, _GPE_, _LOC_, etc.
+
 ### Entity Mention Detection (EMD)
+
+_Entity Mention Detection_ aims at identifying and clasifying entity mentions (real-world object, such as persons, locations, etc. that are not necessarily denoted with a proper name).
+
+<span style="color:blue">The men^(_PERS)</span> held on <span style="color:green">the sinking vessel^(_VEH)</span> until <span style="color:green">the ship^(_VEH)</span> was able to reach them from <span style="color:red">Corsica^(_LOC)</span>.
+
+HMTL can recognized different types of mentions: _PER_, _GPE_, _ORG_, _FAC_, _LOC_, _WEA_ and _VEH_.
+
 ### Relation Extraction (RE)
  
-The different types of relation are the following:
+_Relation extraction_ aims at extracting the semantic relations between the mentions.
+ 
+The different types of relation detectec by HMTL are the following:
 
 | Shortname | Full Name | Description | Example |
 | --- | --- | -- | -- |
@@ -48,20 +65,27 @@ For more details, please refer to the [dataset release notes](https://pdfs.seman
 
 ### Coreference Resolution (CR)
 
+In a text, two or more expressions can link to the same person or thing in the worl. _Coreference Resolution_ aims at finding the coreferent spans and cluster them.
+
+<span style="color:blue">My mom</span> lives in tasted <span style="color:red">the cake</span>. <span style="color:blue">She</span> liked <span style="color:red">it</span>.
+
 
 ## Using HMTL as a server
 
-To launch a specific model (please make sure to be in a valid environment before: `source .env/bin/activate`):
+A simple example of server script for integrating HTML in a REST API is provided as an example in [server.py](https://github.com/huggingface/hmtl/blob/master/demo/server.py).
+To launch a specific model (please make sure to be in a environment with all the dependencies before: `source .env/bin/activate`):
 
 ```bash
-gunicorn -w 2 -t 60 -b:8000 'server:build_app(model_name="<model_name>")'
+gunicorn -b:8000 'server:build_app(model_name="<model_name>")'
 ```
 
-or launching the default model:
+or simply launching the default (full) model:
 
 ```bash
-gunicorn -w 2 -b:8000 'server:build_app()'
+gunicorn -b:8000 'server:build_app()'
 ```
+
+You can then call then the model with the following command: `curl http://localhost:8000/jmd/?text=Barack%20Obama%20is%20the%20former%20president.`.
 
 ## References
 
