@@ -252,7 +252,7 @@ class RelationExtractor(Model):
 			
 			for arg1, arg2, rel_type_idx in instance_tags.nonzero().data:
 				relation = ["*"]*sentence_length
-				rel_type = idx_2_rel_type[rel_type_idx]
+				rel_type = idx_2_rel_type[rel_type_idx.item()]
 				relation[arg1] = "ARG1_" + rel_type
 				relation[arg2] = "ARG2_" + rel_type
 				decoded_relations.append(relation)

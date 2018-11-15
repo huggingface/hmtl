@@ -1,6 +1,6 @@
 # HMTL (Hierarchical Multi-Task Learning model) 
 
-A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks\
+*A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks*\
 Victor SANH, Thomas WOLF, Sebastian RUDER\
 AAAI 2019
 
@@ -31,13 +31,13 @@ We base our implementation on the [AllenNLP library](https://github.com/allenai/
 
 An experiment is described in a _json_ configuration file (see `configs/*.json` for examples). The configuration file mainly describes the datasets to load, the model to create along with all the hyper-parameters of the model. 
 
-Once you have set up your configuration file (and defined custom classes if needed), you can simply launch a training with the following command and arguments:
+Once you have set up your configuration file (and defined custom classes such `DatasetReaders` if needed), you can simply launch a training with the following command and arguments:
 
 ```bash
 python train.py --config_file_path configs/hmtl_coref_conll.json --serialization_dir my_first_training
 ```
 
-Once the training has started, you can simply follow the training in the terminal or open a [Tensorboard](https://www.tensorflow.org/guide/summaries_and_tensorboard):
+Once the training has started, you can simply follow the training in the terminal or open a [Tensorboard](https://www.tensorflow.org/guide/summaries_and_tensorboard) (please make sure you have installed Tensorboard and its Tensorflow dependecy before):
 
 ```bash
 tensorboard --logdir my_first_training/log
@@ -45,11 +45,11 @@ tensorboard --logdir my_first_training/log
 
 ## Evaluating the embeddings with SentEval
 
-We used [SentEval](https://github.com/facebookresearch/SentEval) to assess the linguistic properties learned by the model. `hmtl_senteval.py` gives an example of how we can create an interface between SentEval and HMTL.
+We used [SentEval](https://github.com/facebookresearch/SentEval) to assess the linguistic properties learned by the model. `hmtl_senteval.py` gives an example of how we can create an interface between SentEval and HMTL. It evaluates the linguistic properties learned by every layer of the hiearchy (shared based word embeddings and encoders).
 
 ## Data
 
-To download the pre-trained embeddings we used in HMTL, you can simply call the script `./script/data_setup.sh`.
+To download the pre-trained embeddings we used in HMTL, you can simply launch the script `./script/data_setup.sh`.
 
 We do not attached the datasets used to train HMTL for licensing reasons, but we invite you to collect them by yourself: [OntoNotes 5.0](https://catalog.ldc.upenn.edu/LDC2013T19), [CoNLL2003](https://www.clips.uantwerpen.be/conll2003/ner/), and [ACE2005](https://catalog.ldc.upenn.edu/LDC2006T06). The configuration files expect the datasets to be placed in the `data/` folder.
 
