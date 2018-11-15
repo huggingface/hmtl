@@ -1,0 +1,21 @@
+{
+  "name": "coref-viz",
+  "authors": [
+    "Julien Chaumond <chaumond@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.less": "^1.0.0"
+  }
+}

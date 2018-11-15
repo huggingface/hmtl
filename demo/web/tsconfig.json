@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"outFile": "dist/script.js",
+		"sourceMap": false,
+		"strictNullChecks": true,
+		"removeComments": true,
+		"lib": ["dom", "es6", "es2016", "es2017", "es2018"]
+	},
+	"include": [
+		"typings/**/*",
+		"js-src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"bower_components"
+	]
+}

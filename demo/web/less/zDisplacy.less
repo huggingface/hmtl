@@ -1,0 +1,163 @@
+
+
+[data-entity] {
+	padding: 0.25em 0.35em;
+	margin: 0 0.25em;
+	line-height: 1;
+	display: inline-block;
+	border-radius: 0.25em;
+	border: 1px solid;
+}
+[data-entity]:after {
+	box-sizing: border-box;
+	content: attr(data-entity);
+	font-size: 0.6em;
+	line-height: 1;
+	padding: 0.35em 0.35em;
+	border-radius: 0.35em;
+	text-transform: uppercase;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0.1rem 0.5rem;
+}
+
+.displacy(@color) {
+	background: fade(@color, 20%);
+	border-color: @color;
+	&:after {
+		background: @color;
+	}
+}
+
+[data-entity][data-entity="gpe"] {
+	.displacy(#fd9720);
+}
+[data-entity][data-entity="org"] {
+	.displacy(#43c6fc);
+}
+[data-entity][data-entity="person"] {
+	.displacy(#a6e22d);
+}
+[data-entity][data-entity="date"] {
+	.displacy(#2fbbab);
+}
+[data-entity][data-entity="norp"] {
+	.displacy(#e00084);
+}
+[data-entity][data-entity="cardinal"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="money"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="percent"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="work_of_art"] {
+	.displacy(#ffcc00);
+}
+[data-entity][data-entity="ordinal"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="event"] {
+	.displacy(#ffcc00);
+}
+[data-entity][data-entity="loc"] {
+	.displacy(#fd9720);
+}
+[data-entity][data-entity="time"] {
+	.displacy(#2fbbab);
+}
+[data-entity][data-entity="fac"] {
+	.displacy(#43c6fc);
+}
+[data-entity][data-entity="quantity"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="law"] {
+	.displacy(#999);
+}
+[data-entity][data-entity="product"] {
+	.displacy(#8e7dff);
+}
+[data-entity][data-entity="language"] {
+	.displacy(#ffcc00);
+}
+
+/**
+ * mention types that are not also entity types
+ */
+
+[data-entity][data-entity="per"] {
+	.displacy(#a6e22d);
+}
+[data-entity][data-entity="wea"] {
+	.displacy(#ff2929);
+}
+[data-entity][data-entity="veh"] {
+	.displacy(#6a51ad);
+}
+
+/**
+ * Coref clusters
+ */
+
+[data-entity][data-entity="cluster-1"] {
+	.displacy(#43c6fc);
+}
+[data-entity][data-entity="cluster-2"] {
+	.displacy(#ffcc00);
+}
+[data-entity][data-entity="cluster-3"] {
+	.displacy(#fd9720);
+}
+[data-entity][data-entity="cluster-4"] {
+	.displacy(#2fbbab);
+}
+.dot[data-entity] {
+	&:after {
+		content: "";
+		display: none;
+	}
+}
+
+.displacy-arrow {
+	&.cluster-1 {
+		color: #43c6fc;
+	}
+	&.cluster-2 {
+		color: #ffcc00;
+	}
+	&.cluster-3 {
+		color: #fd9720;
+	}
+	&.cluster-4 {
+		color: #2fbbab;
+	}
+}
+
+/**
+ * Relations
+ */
+
+ .displacy-arrow {
+	&.relex-art {
+		color: #4286f4;
+	}
+	&.relex-gen-aff {
+		color: #4df441;
+	}
+	&.relex-org-aff {
+		color: #cc2486;
+	}
+	&.relex-part-whole {
+		color: #222526;
+	}
+	&.relex-per-soc {
+		color: #9924cc;
+	}
+	&.relex-phys {
+		color: #1ca02c;
+	}
+ }
+ 

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Hugging NLP</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="dist/style.css">
+	<meta property="og:url"    content="https://huggingface.co/nlp/">
+	<meta property="og:image"  content="https://huggingface.co/nlp/assets/thumbnail-large.png">
+	<meta property="fb:app_id" content="1321688464574422">
+	<meta name="description"   content="This is a demo of HuggingNLP, our new NLP multi-task model that reaches or beats SotA on 4 distinct NLP tasks.">
+</head>
+<body>
+	<div class="navbar">
+		<a target="_blank" href="https://huggingface.co">
+			<img class="svg-logo" src="assets/icon.svg">
+		</a>
+		<div class="title-wrapper">
+			<div class="title">HuggingNLP</div>
+			<div class="link">
+				<a target="_blank" href="https://github.com/huggingface/huggingNLP">GitHub</a>
+			</div>
+		</div>
+	</div>
+	<div class="header">
+		<div class="input-wrapper">
+			<form class="js-form">
+				<div class="wrapper-inner">
+					<div class="input-message-wrapper">
+						<input class="input-message" type="text" name="text" placeholder="Your sentence here..." autocomplete="off" autofocus>
+					</div>
+					<button class="input-button c-input__button">
+						<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="currentColor" class="o-icon c-input__button__icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons.svg#icon-search"></use>
+						</svg>
+						<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="currentColor" class="o-icon c-input__button__spinner">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons.svg#icon-spinner"></use>
+						</svg>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="tasks">
+		<div class="task ner" id="ner">
+			<div class="hairline"></div>
+			<div class="title">
+				<div class="title-inner">Named Entity Recognition</div>
+				<a href="#ner">
+					<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" class="svg-link">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/link.svg#icon-link"></use>
+					</svg>
+				</a>
+			</div>
+			<div class="container-wrapper">
+				<svg class="svg-container"></svg>
+				<div class="container"></div>
+			</div>
+		</div>
+		
+		<div class="task emd" id="emd">
+			<div class="hairline"></div>
+			<div class="title">
+				<div class="title-inner">Entity Mention Detection</div>
+				<a href="#emd">
+					<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" class="svg-link">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/link.svg#icon-link"></use>
+					</svg>
+				</a>
+			</div>
+			<div class="container-wrapper">
+				<svg class="svg-container"></svg>
+				<div class="container"></div>
+			</div>
+		</div>
+		
+		<div class="task relex" id="relex">
+			<div class="hairline"></div>
+			<div class="title">
+				<div class="title-inner">Relation Extraction</div>
+				<a href="#relex">
+					<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" class="svg-link">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/link.svg#icon-link"></use>
+					</svg>
+				</a>
+			</div>
+			<div class="container-wrapper">
+				<svg class="svg-container"></svg>
+				<div class="container"></div>
+			</div>
+		</div>
+		
+		<div class="task coref" id="coref">
+			<div class="hairline"></div>
+			<div class="title">
+				<div class="title-inner">Coreference Resolution</div>
+				<a href="#coref">
+					<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" class="svg-link">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/link.svg#icon-link"></use>
+					</svg>
+				</a>
+			</div>
+			<div class="container-wrapper">
+				<svg class="svg-container"></svg>
+				<div class="container"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="footer">
+		<div class="footline"></div>
+		<div class="description">
+			<p>
+				Compare with <a target="_blank" class="js-corenlp" href="http://corenlp.run/#text=">CoreNLP’s results</a> on the same query. 
+				Or compare with spaCy’s <a target="_blank" class="js-displacy" href="https://explosion.ai/demos/displacy-ent?text=">displaCy results</a> on entity recognition.
+			</p>
+			<p>
+				This is a demo of HuggingNLP, our new NLP multi-task model that reaches or beats the state-of-the-art on 4 distinct NLP tasks. 
+				The model combines Named Entity Recognition, Entity Mention Detection, Relation Extraction and Coreference Resolution. 
+				These 4 tasks are all fundamentals for NLP and NLU applications such as conversational agents. 
+				Moreover, these 4 tasks can benefit each other when trained together in a multi-task learning framework, a recent trend in NLP which has been driving a lot of top-notch research.
+			</p>
+			<p>
+				Our implementation is based on the <a target="_blank" href=https://allennlp.org>AllenNLP library</a> 
+				from the <a target="_blank" href=https://allenai.org>Allen Institute for Artificial Intelligence</a>, and makes use of the ELMo embeddings. 
+				<!--If you are interested in learning more about the model, we explain in a Medium blogpost the core components of the model and opensource the training code.-->
+				If you like this demo, please share it and <a target="_blank" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fhuggingface.co%2Fnlp&via=SanhEstPasMoi%20%40Thom_Wolf%20%40seb_ruder%20%40julien_c">tweet about it</a> 💛!
+			</p>
+			<p><a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" data-via="SanhEstPasMoi @Thom_Wolf @seb_ruder @julien_c">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+		</div>
+	</div>
+	
+	<script src="dist/script.js"></script>
+	<script>
+	(function() {
+		if (window.location.hostname === 'localhost') {
+			var s = document.createElement('script');
+			s.setAttribute('src', '//localhost:35729/livereload.js');
+			document.body.appendChild(s);
+		}
+	})();
+	</script>
+	<script>
+	if (window.location.hostname !== 'localhost') {
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-83738774-2', 'auto');
+		ga('send', 'pageview');
+	}
+	</script>
+</body>
+</html>
