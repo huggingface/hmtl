@@ -2,7 +2,7 @@
 
 [__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__](https://arxiv.org/abs/1811.06031)\
 Victor SANH, Thomas WOLF, Sebastian RUDER\
-In the Proceedings of AAAI 2019
+Accepted at AAAI 2019
 
 <img src="https://github.com/huggingface/jointmodelMD/blob/master/HMTL_architecture.png" alt="HMTL Architecture" width="350"/>
 
@@ -55,7 +55,12 @@ We do not attach the datasets used to train HMTL for licensing reasons, but we i
 
 ## References
 
+Please consider citing the following paper if you find this repository useful.
 ```
-@article{
+@article{sanh2018hmtl,
+  title={A Hierarchical Multi-task Approach for Learning Embeddings from Semantic Tasks},
+  author={Sanh, Victor and Wolf, Thomas and Ruder, Sebastian},
+  journal={arXiv preprint arXiv:1811.06031},
+  year={2018}
 }
 ```
