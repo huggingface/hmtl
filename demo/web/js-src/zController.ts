@@ -10,6 +10,9 @@ const DEFAULT_NLP_TEXT = () => {
 		// `My mother's name is Sasha, she likes dogs.`,
 		// `My name is Jean-Claude, I love mushrooms.`,
 		// `My mother's name is Sasha, she likes dogs and works at Google.`,
+		`In 2009, ABC increased its margin by 10%. The company used to manufacture its car in Thailand but moved the factories to China.`,
+		`Mark is from Seattle. But housing is so expensive in San Francisco that he used to sleep in the garage of a house.`,
+		`Robert was stuck at the airport because of the snow storm. He missed the wedding of his daughter.`,
 		`In Boston, Michelle used to run with John Lennon. He was as slow as a snail, but she was as fast as a train, probably because she worked at a running shop.`,
 	];
 	return items[Math.floor(Math.random()*items.length)];
