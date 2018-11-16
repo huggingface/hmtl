@@ -1,5 +1,7 @@
 # coding: utf-8
 
+# A modified version of the trainer showcased in GLUE: https://github.com/nyu-mll/GLUE-baselines
+
 import os
 import math
 import time

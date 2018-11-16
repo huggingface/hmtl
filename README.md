@@ -8,11 +8,11 @@ Accepted at AAAI 2019
 
 ## About
 
-HMTL is a Hierarchical Multi-Task Learning model which combine a set of four carefully selected semantic tasks (namely Named Entity Recoginition, Entity Mention Detection, Relation Extraction and Coreference Resolution). The model achieves state-of-the-art results on Named Entity Recognition, Entity Mention Detection and Relation Extraction. Using [SentEval](https://github.com/facebookresearch/SentEval), we show that as we move from the bottom to the top layers of the model, the model tend to learn more complex semantic representation.
+HMTL is a Hierarchical Multi-Task Learning model which combines a set of four carefully selected semantic tasks (namely Named Entity Recoginition, Entity Mention Detection, Relation Extraction and Coreference Resolution). The model achieves state-of-the-art results on Named Entity Recognition, Entity Mention Detection and Relation Extraction. Using [SentEval](https://github.com/facebookresearch/SentEval), we show that as we move from the bottom to the top layers of the model, the model tend to learn more complex semantic representation.
 
-For more details, we refer to our [paper](https://arxiv.org/abs/1811.06031).
+For further details on the results, we refer to our [paper](https://arxiv.org/abs/1811.06031).
 
-We release here the code for _training_, _fine tuning_ and _evaluating_ HMTL. We hope that this code will be useful for building your own Multi-Task models (hierarchical or not). The code is written in __Python__ and powered by __Pytorch__.
+We release the code for _training_, _fine tuning_ and _evaluating_ HMTL. We hope that this code will be useful for building your own Multi-Task models (hierarchical or not). The code is written in __Python__ and powered by __Pytorch__.
 
 ## Dependecies and installation
 
@@ -29,7 +29,7 @@ You can quickly setup a working environment by calling the script `./script/mach
 
 We base our implementation on the [AllenNLP library](https://github.com/allenai/allennlp). For an introduction to this library, you should check [these tutorials](https://allennlp.org/tutorials).
 
-An experiment is described in a _json_ configuration file (see `configs/*.json` for examples). The configuration file mainly describes the datasets to load, the model to create along with all the hyper-parameters of the model. 
+An experiment is defined in a _json_ configuration file (see `configs/*.json` for examples). The configuration file mainly describes the datasets to load, the model to create along with all the hyper-parameters of the model. 
 
 Once you have set up your configuration file (and defined custom classes such `DatasetReaders` if needed), you can simply launch a training with the following command and arguments:
 

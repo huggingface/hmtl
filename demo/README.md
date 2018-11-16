@@ -1,10 +1,10 @@
-# 🎮 Demo: HMTL (Hierarchical Multi-Task Learning model) 
+# 🎮 Demo: HMTL (Hierarchical Multi-Task Learning model) - WORK IN PROGRESS
 
 ## Introduction
 
 This is a demonstration of our NLP system: HMTL is a neural model for resolving four fundamental tasks in NLP, namely *Named Entity Recognition*, *Entity Mention Detection*, *Relation Extraction* and *Coreference Resolution* using multi-task learning.
 
-For a brief introduction to multi-task learning, you can refer to our blog post (LINK TO COME). Each of the four tasks considered is detailed in the following section. 
+[comment]: <> (For a brief introduction to multi-task learning, you can refer to our blog post (LINK TO COME). Each of the four tasks considered is detailed in the following section.) 
 
 The web interface for the demo can be found here (LINK TO COME) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
 
@@ -72,7 +72,7 @@ In a text, two or more expressions can link to the same person or thing in the w
 
 ## Using HMTL as a server
 
-A simple example of server script for integrating HTML in a REST API is provided as an example in [server.py](https://github.com/huggingface/hmtl/blob/master/demo/server.py).
+HTML can be used as a REST API. A simple example of server script is provided as an example in [server.py](https://github.com/huggingface/hmtl/blob/master/demo/server.py).
 To launch a specific model (please make sure to be in a environment with all the dependencies before: `source .env/bin/activate`):
 
 ```bash
