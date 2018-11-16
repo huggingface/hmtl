@@ -8,11 +8,11 @@ For a brief introduction to multi-task learning, you can refer to our blog post 
 
 The web interface for the demo can be found here (LINK TO COME) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
 
-<img src="https://github.com/huggingface/hmtl/blob/master/demo/HMTL_demo.png" alt="HMTL Demo" width="600"/>
+<img src="https://github.com/huggingface/hmtl/blob/master/demo/HMTL_demo.png" alt="HMTL Demo" width="900"/>
 
 ## Setup
 
-The demo (LINK TO COME) is based on Python 3.6 and [AllenNLP](https://github.com/allenai/allennlp).
+The web demo (LINK TO COME) is based on Python 3.6 and [AllenNLP](https://github.com/allenai/allennlp).
 
 The easiest way to setup a clean and working environment with the necessary dependencies is to refer to the setup section in the [parent folder](https://github.com/huggingface/hmtl#dependecies-and-installation).
 A few supplementary dependecies are listed in `requirements.txt`  and are required to run the demo.
@@ -33,7 +33,7 @@ To download the pre-trained models, please install [git lfs](https://git-lfs.git
 
 _Named Entity Recognition_ aims at identifying and clasifying named entities (real-world object, such as persons, locations, etc. that can be denoted with a proper name).
 
-<span style="color:blue">Homer Simpson^(_PERS)</span> lives in <span style="color:red">Springfield^(_LOC)</span> with his wife and kids.
+[Homer Simpson]<sub>PERS</sub> lives in [Springfield]<sub>LOC</sub> with his wife and kids.
 
 HMTL is trained on OntoNotes 5.0 and can recognized various types (18) of named entities: _PERSON_, _NORP_, _FAC_, _ORG_, _GPE_, _LOC_, etc.
 
@@ -41,7 +41,7 @@ HMTL is trained on OntoNotes 5.0 and can recognized various types (18) of named 
 
 _Entity Mention Detection_ aims at identifying and clasifying entity mentions (real-world object, such as persons, locations, etc. that are not necessarily denoted with a proper name).
 
-<span style="color:blue">The men^(_PERS)</span> held on <span style="color:green">the sinking vessel^(_VEH)</span> until <span style="color:green">the ship^(_VEH)</span> was able to reach them from <span style="color:red">Corsica^(_LOC)</span>.
+[The men]<sub>PERS</sub> held on [the sinking vessel]<sub>VEH</sub> until [the ship]<sub>VEH</sub> was able to reach them from [Corsica]<sub>LOC</sub>.
 
 HMTL can recognized different types of mentions: _PER_, _GPE_, _ORG_, _FAC_, _LOC_, _WEA_ and _VEH_.
 
@@ -67,7 +67,7 @@ For more details, please refer to the [dataset release notes](https://pdfs.seman
 
 In a text, two or more expressions can link to the same person or thing in the worl. _Coreference Resolution_ aims at finding the coreferent spans and cluster them.
 
-<span style="color:blue">My mom</span> lives in tasted <span style="color:red">the cake</span>. <span style="color:blue">She</span> liked <span style="color:red">it</span>.
+[My mom]<sub>1</sub> tasted [the cake]<sub>2</sub>. [She]<sub>1</sub> liked [it]<sub>2</sub>.
 
 
 ## Using HMTL as a server
