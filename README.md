@@ -1,8 +1,8 @@
 # HMTL (Hierarchical Multi-Task Learning model) 
 
-__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__\
+[__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__](https://arxiv.org/abs/1811.06031)\
 Victor SANH, Thomas WOLF, Sebastian RUDER\
-AAAI 2019
+In the Proceedings of AAAI 2019
 
 <img src="https://github.com/huggingface/jointmodelMD/blob/master/HMTL_architecture.png" alt="HMTL Architecture" width="350"/>
 
@@ -10,7 +10,7 @@ AAAI 2019
 
 HMTL is a Hierarchical Multi-Task Learning model which combine a set of four carefully selected semantic tasks (namely Named Entity Recoginition, Entity Mention Detection, Relation Extraction and Coreference Resolution). The model achieves state-of-the-art results on Named Entity Recognition, Entity Mention Detection and Relation Extraction. Using [SentEval](https://github.com/facebookresearch/SentEval), we show that as we move from the bottom to the top layers of the model, the model tend to learn more complex semantic representation.
 
-For more details, we refer to our AAAI paper (LINK Arxiv).
+For more details, we refer to our [paper](https://arxiv.org/abs/1811.06031).
 
 We release here the code for _training_, _fine tuning_ and _evaluating_ HMTL. We hope that this code will be useful for building your own Multi-Task models (hierarchical or not). The code is written in __Python__ and powered by __Pytorch__.
 

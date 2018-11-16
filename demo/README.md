@@ -86,10 +86,3 @@ gunicorn -b:8000 'server:build_app()'
 ```
 
 You can then call then the model with the following command: `curl http://localhost:8000/jmd/?text=Barack%20Obama%20is%20the%20former%20president.`.
-
-## References
-
-```
-@article{
-}
-```
