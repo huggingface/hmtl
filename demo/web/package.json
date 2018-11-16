@@ -1,5 +1,5 @@
 {
-  "name": "coref-viz",
+  "name": "hmtl-web",
   "version": "1.0.0",
   "description": "",
   "main": "Gruntfile.js",
@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "grunt": "^1.0.1",
-    "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-less": "^1.4.1",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt": "^1.0.3",
+    "grunt-contrib-connect": "^2.0.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-watch": "^1.1.0"
   }
 }
