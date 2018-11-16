@@ -4,7 +4,7 @@
 Victor SANH, Thomas WOLF, Sebastian RUDER\
 Accepted at AAAI 2019
 
-<img src="https://github.com/huggingface/jointmodelMD/blob/master/HMTL_architecture.png" alt="HMTL Architecture" width="350"/>
+<img src="https://github.com/huggingface/hmtl/blob/master/HMTL_architecture.png" alt="HMTL Architecture" width="350"/>
 
 ## About
 

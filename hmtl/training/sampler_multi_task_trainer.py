@@ -451,7 +451,7 @@ class SamplerMultiTaskTrainer(MultiTaskTrainer):
                          task_name, 
                          task_info['total_n_batches_trained'],
                          nb_epoch_trained)
-            return_metrics[task._name] = {"best_epoch": self._metric_infos[task_name]['best'][0],
+            return_metrics[task_name] = {"best_epoch": self._metric_infos[task_name]['best'][0],
                                         "nb_epoch_trained": nb_epoch_trained,
                                         "best_epoch_val_metrics": self._metric_infos[task_name]['best'][1]}
             
