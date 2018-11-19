@@ -93,7 +93,7 @@ class LayerRelation(Model):
     def from_params(cls,
                     vocab: Vocabulary,
                     params: Params,
-                    regularizer: RegularizerApplicator) -> "layerRelation":
+                    regularizer: RegularizerApplicator) -> "LayerRelation":
         return cls(vocab = vocab,
                 params = params,
                 regularizer = regularizer)
