@@ -99,23 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		__launchParseRequest(text);
 	}
 	
-	
+	let debounceTimeout: number;
 	const __checkInstantSearch = () => {
+		debounceTimeout && clearTimeout(debounceTimeout);
+		
 		const text = $input.value;
 		if (text === "") {
 			return ;
 		}
-		if (/[^\w]$/.test(text)) {
-			console.log(`lauching instant search with "${text}"`);
+		
+		debounceTimeout = setTimeout((text: string) => {
+			console.log(`[debounced] lauching instant search with "${text}"`);
 			__launchParseRequest(text);
-		} else {
-			setTimeout(() => {
-				if ($input.value === text) {
-					console.log(`[debounced] lauching instant search with "${text}"`);
-					__launchParseRequest(text);
-				}
-			}, 500);
-		}
+		}, 500, text);
 	};
 	
 	$input.addEventListener('keyup', (evt) => {
