@@ -4,15 +4,15 @@
 
 This is a demonstration of our NLP system: HMTL is a neural model for resolving four fundamental tasks in NLP, namely *Named Entity Recognition*, *Entity Mention Detection*, *Relation Extraction* and *Coreference Resolution* using multi-task learning.
 
-[comment]: <> (For a brief introduction to multi-task learning, you can refer to our blog post (LINK TO COME). Each of the four tasks considered is detailed in the following section.) 
+For a brief introduction to multi-task learning, you can refer to [our blog post](https://medium.com/p/b4e1d5c3faf). Each of the four tasks considered is detailed in the following section. 
 
-The web interface for the demo can be found here (LINK TO COME) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
+The web interface for the demo can be found [here](https://huggingface.co/hmtl/) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
 
 <img src="https://github.com/huggingface/hmtl/blob/master/demo/HMTL_demo.png" alt="HMTL Demo" width="900"/>
 
 ## Setup
 
-The web demo (LINK TO COME) is based on Python 3.6 and [AllenNLP](https://github.com/allenai/allennlp).
+The [web demo](https://huggingface.co/hmtl/) is based on Python 3.6 and [AllenNLP](https://github.com/allenai/allennlp).
 
 The easiest way to setup a clean and working environment with the necessary dependencies is to refer to the setup section in the [parent folder](https://github.com/huggingface/hmtl#dependecies-and-installation).
 A few supplementary dependecies are listed in `requirements.txt`  and are required to run the demo.

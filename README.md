@@ -1,5 +1,10 @@
 # HMTL (Hierarchical Multi-Task Learning model) 
 
+**\*\*\*\*\* New November 20th, 2018: Online web demo is available \*\*\*\*\***
+
+We release an [online demo](https://huggingface.co/hmtl/) so that you can play yourself with the model. The code for the web interface is also available in the `demo` folder.
+
+
 [__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__](https://arxiv.org/abs/1811.06031)\
 Victor SANH, Thomas WOLF, Sebastian RUDER\
 Accepted at AAAI 2019
