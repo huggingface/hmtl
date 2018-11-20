@@ -1,4 +1,4 @@
-# 🎮 Demo: HMTL (Hierarchical Multi-Task Learning model) - WORK IN PROGRESS
+# 🎮 Demo: HMTL (Hierarchical Multi-Task Learning model)
 
 ## Introduction
 
