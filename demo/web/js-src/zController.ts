@@ -102,9 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	const __checkInstantSearch = () => {
 		const text = $input.value;
-		if (text !== "" && /[^\w]$/.test(text)) {
+		if (text === "") {
+			return ;
+		}
+		if (/[^\w]$/.test(text)) {
 			console.log(`lauching instant search with "${text}"`);
 			__launchParseRequest(text);
+		} else {
+			setTimeout(() => {
+				if ($input.value === text) {
+					console.log(`[debounced] lauching instant search with "${text}"`);
+					__launchParseRequest(text);
+				}
+			}, 500);
 		}
 	};
 	
