@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Download Data
+mkdir -p data
 cd data
 
 #ELMO
