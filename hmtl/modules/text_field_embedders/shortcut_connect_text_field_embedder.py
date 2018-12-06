@@ -31,9 +31,8 @@ class ShortcutConnectTextFieldEmbedder(TextFieldEmbedder):
     previous_encoder : ``Seq2SeqEncoder``, required
         The previous seq2seqencoder.
     """
-    def __init__(self, 
-                base_text_field_embedder: TextFieldEmbedder,
-                previous_encoders: List[Seq2SeqEncoder]) -> None:
+
+    def __init__(self, base_text_field_embedder: TextFieldEmbedder, previous_encoders: List[Seq2SeqEncoder]) -> None:
         super(ShortcutConnectTextFieldEmbedder, self).__init__()
         self._base_text_field_embedder = base_text_field_embedder
         self._previous_encoders = previous_encoders
@@ -43,21 +42,17 @@ class ShortcutConnectTextFieldEmbedder(TextFieldEmbedder):
         output_dim = 0
         output_dim += self._base_text_field_embedder.get_output_dim()
         output_dim += self._previous_encoders[-1].get_output_dim()
-        
+
         return output_dim
 
     @overrides
-    def forward(self, 
-                text_field_input: Dict[str, torch.Tensor], 
-                num_wrapping_dims: int = 0) -> torch.Tensor:		
+    def forward(self, text_field_input: Dict[str, torch.Tensor], num_wrapping_dims: int = 0) -> torch.Tensor:
         text_field_embeddings = self._base_text_field_embedder.forward(text_field_input, num_wrapping_dims)
         base_representation = text_field_embeddings
         mask = util.get_text_field_mask(text_field_input)
-        
-        
+
         for encoder in self._previous_encoders:
             text_field_embeddings = encoder(text_field_embeddings, mask)
-            text_field_embeddings = torch.cat([base_representation, text_field_embeddings], dim = -1)
-        
-        
+            text_field_embeddings = torch.cat([base_representation, text_field_embeddings], dim=-1)
+
         return torch.cat([text_field_embeddings], dim=-1)

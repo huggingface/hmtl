@@ -33,63 +33,67 @@ class CoreferenceCustom(CoreferenceResolver):
         We leave the possibility of replacing predicting the possible mentions 
         with the gold mentions in evaluation.
     """
-    def __init__(self,
-                 vocab: Vocabulary,
-                 text_field_embedder: TextFieldEmbedder,
-                 context_layer: Seq2SeqEncoder,
-                 mention_feedforward: FeedForward,
-                 antecedent_feedforward: FeedForward,
-                 feature_size: int,
-                 max_span_width: int,
-                 spans_per_word: float,
-                 max_antecedents: int,
-                 lexical_dropout: float = 0.2,
-                 initializer: InitializerApplicator = InitializerApplicator(),
-                 regularizer: Optional[RegularizerApplicator] = None,
-                 eval_on_gold_mentions: bool = False) -> None:
-        super(CoreferenceCustom, self).__init__(vocab = vocab, 
-                                                text_field_embedder = text_field_embedder,
-                                                context_layer = context_layer,
-                                                mention_feedforward = mention_feedforward,
-                                                antecedent_feedforward = antecedent_feedforward,
-                                                feature_size = feature_size,
-                                                max_span_width = max_span_width,
-                                                spans_per_word = spans_per_word,
-                                                max_antecedents = max_antecedents,
-                                                lexical_dropout = lexical_dropout,
-                                                initializer = initializer,
-                                                regularizer = regularizer)
+
+    def __init__(
+        self,
+        vocab: Vocabulary,
+        text_field_embedder: TextFieldEmbedder,
+        context_layer: Seq2SeqEncoder,
+        mention_feedforward: FeedForward,
+        antecedent_feedforward: FeedForward,
+        feature_size: int,
+        max_span_width: int,
+        spans_per_word: float,
+        max_antecedents: int,
+        lexical_dropout: float = 0.2,
+        initializer: InitializerApplicator = InitializerApplicator(),
+        regularizer: Optional[RegularizerApplicator] = None,
+        eval_on_gold_mentions: bool = False,
+    ) -> None:
+        super(CoreferenceCustom, self).__init__(
+            vocab=vocab,
+            text_field_embedder=text_field_embedder,
+            context_layer=context_layer,
+            mention_feedforward=mention_feedforward,
+            antecedent_feedforward=antecedent_feedforward,
+            feature_size=feature_size,
+            max_span_width=max_span_width,
+            spans_per_word=spans_per_word,
+            max_antecedents=max_antecedents,
+            lexical_dropout=lexical_dropout,
+            initializer=initializer,
+            regularizer=regularizer,
+        )
 
         self._conll_coref_scores = ConllCorefFullScores()
         self._eval_on_gold_mentions = eval_on_gold_mentions
-        
-        if self._eval_on_gold_mentions: 
+
+        if self._eval_on_gold_mentions:
             self._use_gold_mentions = False
-        else: 
+        else:
             self._use_gold_mentions = None
-        
-    
+
     @overrides
-    def get_metrics(self, 
-                    reset: bool = False, 
-                    full:bool = False):
-        mention_recall = self._mention_recall.get_metric(reset = reset)
-        metrics = self._conll_coref_scores.get_metric(reset = reset, full = full)
+    def get_metrics(self, reset: bool = False, full: bool = False):
+        mention_recall = self._mention_recall.get_metric(reset=reset)
+        metrics = self._conll_coref_scores.get_metric(reset=reset, full=full)
         metrics["mention_recall"] = mention_recall
 
         return metrics
-        
+
     @overrides
-    def forward(self,  # type: ignore
-                text: Dict[str, torch.LongTensor],
-                spans: torch.IntTensor,
-                span_labels: torch.IntTensor = None,
-                metadata: List[Dict[str, Any]] = None) -> Dict[str, torch.Tensor]:
+    def forward(
+        self,  # type: ignore
+        text: Dict[str, torch.LongTensor],
+        spans: torch.IntTensor,
+        span_labels: torch.IntTensor = None,
+        metadata: List[Dict[str, Any]] = None,
+    ) -> Dict[str, torch.Tensor]:
         # pylint: disable=arguments-differ
-        
+
         # Shape: (batch_size, document_length, embedding_size)
         text_embeddings = self._lexical_dropout(self._text_field_embedder(text))
-        
+
         document_length = text_embeddings.size(1)
 
         # Shape: (batch_size, document_length)
@@ -97,14 +101,20 @@ class CoreferenceCustom(CoreferenceResolver):
 
         # Shape: (batch_size, num_spans)
         if self._use_gold_mentions:
-            if text_embeddings.is_cuda: device = torch.device('cuda')
-            else: device = torch.device('cpu')
-                
-            s = [torch.as_tensor(pair, dtype = torch.long, device = device) for cluster in metadata[0]["clusters"] for pair in cluster]
-            gm = torch.stack(s, dim = 0).unsqueeze(0).unsqueeze(1)
-            
-            span_mask = (spans.unsqueeze(2) - gm)
-            span_mask = (span_mask[:,:,:,0]==0) + (span_mask[:,:,:,1]==0)
+            if text_embeddings.is_cuda:
+                device = torch.device("cuda")
+            else:
+                device = torch.device("cpu")
+
+            s = [
+                torch.as_tensor(pair, dtype=torch.long, device=device)
+                for cluster in metadata[0]["clusters"]
+                for pair in cluster
+            ]
+            gm = torch.stack(s, dim=0).unsqueeze(0).unsqueeze(1)
+
+            span_mask = spans.unsqueeze(2) - gm
+            span_mask = (span_mask[:, :, :, 0] == 0) + (span_mask[:, :, :, 1] == 0)
             span_mask, _ = (span_mask == 2).max(-1)
             num_spans = span_mask.sum().item()
             span_mask = span_mask.float()
@@ -127,19 +137,16 @@ class CoreferenceCustom(CoreferenceResolver):
         # Prune based on mention scores.
         num_spans_to_keep = int(math.floor(self._spans_per_word * document_length))
 
-        (top_span_embeddings, top_span_mask,
-         top_span_indices, top_span_mention_scores) = self._mention_pruner(span_embeddings,
-                                                                           span_mask,
-                                                                           num_spans_to_keep)
+        (top_span_embeddings, top_span_mask, top_span_indices, top_span_mention_scores) = self._mention_pruner(
+            span_embeddings, span_mask, num_spans_to_keep
+        )
         top_span_mask = top_span_mask.unsqueeze(-1)
         # Shape: (batch_size * num_spans_to_keep)
         flat_top_span_indices = util.flatten_and_batch_shift_indices(top_span_indices, num_spans)
 
         # Compute final predictions for which spans to consider as mentions.
         # Shape: (batch_size, num_spans_to_keep, 2)
-        top_spans = util.batched_index_select(spans,
-                                              top_span_indices,
-                                              flat_top_span_indices)
+        top_spans = util.batched_index_select(spans, top_span_indices, flat_top_span_indices)
 
         # Compute indices for antecedent spans to consider.
         max_antecedents = min(self._max_antecedents, num_spans_to_keep)
@@ -148,48 +155,51 @@ class CoreferenceCustom(CoreferenceResolver):
         # (num_spans_to_keep, max_antecedents),
         # (1, max_antecedents),
         # (1, num_spans_to_keep, max_antecedents)
-        valid_antecedent_indices, valid_antecedent_offsets, valid_antecedent_log_mask = \
-            self._generate_valid_antecedents(num_spans_to_keep, max_antecedents, util.get_device_of(text_mask))
+        valid_antecedent_indices, valid_antecedent_offsets, valid_antecedent_log_mask = self._generate_valid_antecedents(
+            num_spans_to_keep, max_antecedents, util.get_device_of(text_mask)
+        )
         # Select tensors relating to the antecedent spans.
         # Shape: (batch_size, num_spans_to_keep, max_antecedents, embedding_size)
-        candidate_antecedent_embeddings = util.flattened_index_select(top_span_embeddings,
-                                                                      valid_antecedent_indices)
+        candidate_antecedent_embeddings = util.flattened_index_select(top_span_embeddings, valid_antecedent_indices)
 
         # Shape: (batch_size, num_spans_to_keep, max_antecedents)
-        candidate_antecedent_mention_scores = util.flattened_index_select(top_span_mention_scores,
-                                                                          valid_antecedent_indices).squeeze(-1)
+        candidate_antecedent_mention_scores = util.flattened_index_select(
+            top_span_mention_scores, valid_antecedent_indices
+        ).squeeze(-1)
         # Compute antecedent scores.
         # Shape: (batch_size, num_spans_to_keep, max_antecedents, embedding_size)
-        span_pair_embeddings = self._compute_span_pair_embeddings(top_span_embeddings,
-                                                                  candidate_antecedent_embeddings,
-                                                                  valid_antecedent_offsets)
+        span_pair_embeddings = self._compute_span_pair_embeddings(
+            top_span_embeddings, candidate_antecedent_embeddings, valid_antecedent_offsets
+        )
         # Shape: (batch_size, num_spans_to_keep, 1 + max_antecedents)
-        coreference_scores = self._compute_coreference_scores(span_pair_embeddings,
-                                                              top_span_mention_scores,
-                                                              candidate_antecedent_mention_scores,
-                                                              valid_antecedent_log_mask)
+        coreference_scores = self._compute_coreference_scores(
+            span_pair_embeddings,
+            top_span_mention_scores,
+            candidate_antecedent_mention_scores,
+            valid_antecedent_log_mask,
+        )
 
         # Shape: (batch_size, num_spans_to_keep)
         _, predicted_antecedents = coreference_scores.max(2)
         predicted_antecedents -= 1
 
-        output_dict = {"top_spans": top_spans,
-                       "antecedent_indices": valid_antecedent_indices,
-                       "predicted_antecedents": predicted_antecedents}
+        output_dict = {
+            "top_spans": top_spans,
+            "antecedent_indices": valid_antecedent_indices,
+            "predicted_antecedents": predicted_antecedents,
+        }
         if span_labels is not None:
             # Find the gold labels for the spans which we kept.
-            pruned_gold_labels = util.batched_index_select(span_labels.unsqueeze(-1),
-                                                           top_span_indices,
-                                                           flat_top_span_indices)
+            pruned_gold_labels = util.batched_index_select(
+                span_labels.unsqueeze(-1), top_span_indices, flat_top_span_indices
+            )
 
-            antecedent_labels = util.flattened_index_select(pruned_gold_labels,
-                                                            valid_antecedent_indices).squeeze(-1)
+            antecedent_labels = util.flattened_index_select(pruned_gold_labels, valid_antecedent_indices).squeeze(-1)
             antecedent_labels += valid_antecedent_log_mask.long()
 
             # Compute labels.
             # Shape: (batch_size, num_spans_to_keep, max_antecedents + 1)
-            gold_antecedent_labels = self._compute_antecedent_gold_labels(pruned_gold_labels,
-                                                                          antecedent_labels)
+            gold_antecedent_labels = self._compute_antecedent_gold_labels(pruned_gold_labels, antecedent_labels)
             coreference_log_probs = util.last_dim_log_softmax(coreference_scores, top_span_mask)
             correct_antecedent_log_probs = coreference_log_probs + gold_antecedent_labels.log()
             negative_marginal_log_likelihood = -util.logsumexp(correct_antecedent_log_probs).sum()
@@ -198,7 +208,7 @@ class CoreferenceCustom(CoreferenceResolver):
             self._conll_coref_scores(top_spans, valid_antecedent_indices, predicted_antecedents, metadata)
 
             output_dict["loss"] = negative_marginal_log_likelihood
-            
+
         if metadata is not None:
             output_dict["document"] = [x["original_text"] for x in metadata]
         return output_dict

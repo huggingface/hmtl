@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 @DatasetReader.register("ner_ontonotes")
 class NerOntonotesReader(DatasetReader):
-    '''
+    """
     An ``allennlp.data.dataset_readers.dataset_reader.DatasetReader`` for reading
     NER annotations in CoNll-formatted OntoNotes dataset.
     
@@ -49,13 +49,16 @@ class NerOntonotesReader(DatasetReader):
         In the IOB1 scheme, I is a token inside a span, O is a token outside
         a span and B is the beginning of span immediately following another
         span of the same type.
-    '''
-    def __init__(self,
-                 token_indexers: Dict[str, TokenIndexer] = None,
-                 domain_identifier: str = None,
-                 label_namespace: str = "ontonotes_ner_labels",
-                 lazy: bool = False,
-                 coding_scheme: str = "IOB1") -> None:
+    """
+
+    def __init__(
+        self,
+        token_indexers: Dict[str, TokenIndexer] = None,
+        domain_identifier: str = None,
+        label_namespace: str = "ontonotes_ner_labels",
+        lazy: bool = False,
+        coding_scheme: str = "IOB1",
+    ) -> None:
         super().__init__(lazy)
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
         self._domain_identifier = domain_identifier
@@ -63,45 +66,41 @@ class NerOntonotesReader(DatasetReader):
         self._coding_scheme = coding_scheme
         if coding_scheme not in ("IOB1", "BIOUL"):
             raise ConfigurationError("unknown coding_scheme: {}".format(coding_scheme))
-        
+
     @overrides
-    def _read(self,
-              file_path: str):
-        file_path = cached_path(file_path) # if `file_path` is a URL, redirect to the cache
+    def _read(self, file_path: str):
+        file_path = cached_path(file_path)  # if `file_path` is a URL, redirect to the cache
         ontonotes_reader = Ontonotes()
         logger.info("Reading NER instances from dataset files at: %s", file_path)
         if self._domain_identifier is not None:
             logger.info("Filtering to only include file paths containing the %s domain", self._domain_identifier)
-            
+
         for sentence in self._ontonotes_subset(ontonotes_reader, file_path, self._domain_identifier):
             tokens = [Token(t) for t in sentence.words]
             if not sentence.named_entities:
                 tags = ["O" for _ in tokens]
             else:
                 tags = sentence.named_entities
-                
+
             if self._coding_scheme == "BIOUL":
                 tags = iob1_to_bioul(tags)
-                
+
             yield self.text_to_instance(tokens, tags)
-          
-        
+
     @staticmethod
-    def _ontonotes_subset(ontonotes_reader: Ontonotes,
-                          file_path: str,
-                          domain_identifier: str) -> Iterable[OntonotesSentence]:
+    def _ontonotes_subset(
+        ontonotes_reader: Ontonotes, file_path: str, domain_identifier: str
+    ) -> Iterable[OntonotesSentence]:
         for conll_file in ontonotes_reader.dataset_path_iterator(file_path):
             yield from ontonotes_reader.sentence_iterator(conll_file)
-    
-    
-    def text_to_instance(self,
-                         tokens: List[Token],
-                         tags: List[str] = None) -> Instance:
+
+    def text_to_instance(self, tokens: List[Token], tags: List[str] = None) -> Instance:
         # pylint: disable=arguments-differ
         fields: Dict[str, Field] = {}
         text_field = TextField(tokens, token_indexers=self._token_indexers)
-        fields['tokens'] = text_field
+        fields["tokens"] = text_field
         if tags:
-            fields['tags'] = SequenceLabelField(labels = tags, sequence_field = text_field, label_namespace = self._label_namespace)
+            fields["tags"] = SequenceLabelField(
+                labels=tags, sequence_field=text_field, label_namespace=self._label_namespace
+            )
         return Instance(fields)
-                

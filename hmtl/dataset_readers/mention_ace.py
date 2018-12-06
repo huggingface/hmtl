@@ -22,36 +22,34 @@ from hmtl.dataset_readers.dataset_utils import ACE, ACESentence
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-        
 @DatasetReader.register("mention_ace")
 class MentionACEReader(DatasetReader):
-    '''
+    """
     A dataset reader to read the Entity Mention Tags from an ACE dataset
     previously pre-procesed to fit the CoNll-NER format.
-    '''
-    def __init__(self,
-                 token_indexers: Dict[str, TokenIndexer] = None,
-                 label_namespace: str = "ace_mention_labels",
-                 lazy: bool = False) -> None:
+    """
+
+    def __init__(
+        self,
+        token_indexers: Dict[str, TokenIndexer] = None,
+        label_namespace: str = "ace_mention_labels",
+        lazy: bool = False,
+    ) -> None:
         super().__init__(lazy)
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
         self._label_namespace = label_namespace
-    
-    
+
     @staticmethod
-    def _sentence_iterate(ace_reader: ACE,
-                        file_path: str) -> Iterable[ACESentence]:
+    def _sentence_iterate(ace_reader: ACE, file_path: str) -> Iterable[ACESentence]:
         for conll_file in ace_reader.dataset_path_iterator(file_path):
             yield from ace_reader.sentence_iterator(conll_file)
-    
-    
+
     @overrides
-    def _read(self,
-              file_path: str):
-        file_path = cached_path(file_path) # if `file_path` is a URL, redirect to the cache
+    def _read(self, file_path: str):
+        file_path = cached_path(file_path)  # if `file_path` is a URL, redirect to the cache
         ace_reader = ACE()
         logger.info("Reading ACE Mention instances from dataset files at: %s", file_path)
-        
+
         for sentence in self._sentence_iterate(ace_reader, file_path):
             tokens = [Token(t) for t in sentence.words]
             if not sentence.mention_tags:
@@ -60,16 +58,14 @@ class MentionACEReader(DatasetReader):
                 tags = sentence.mention_tags
 
             yield self.text_to_instance(tokens, tags)
-    
-    
-    def text_to_instance(self,
-                         tokens: List[Token],
-                         tags: List[str] = None) -> Instance:
+
+    def text_to_instance(self, tokens: List[Token], tags: List[str] = None) -> Instance:
         # pylint: disable=arguments-differ
         fields: Dict[str, Field] = {}
         text_field = TextField(tokens, token_indexers=self._token_indexers)
-        fields['tokens'] = text_field
+        fields["tokens"] = text_field
         if tags:
-            fields['tags'] = SequenceLabelField(labels = tags, sequence_field = text_field, label_namespace = self._label_namespace)
+            fields["tags"] = SequenceLabelField(
+                labels=tags, sequence_field=text_field, label_namespace=self._label_namespace
+            )
         return Instance(fields)
-         

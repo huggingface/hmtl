@@ -1,5 +1,5 @@
 # coding: utf-8
-               
+
 import os
 import sys
 import logging
@@ -36,94 +36,82 @@ class LayerEmdRelation(Model):
     regularizer: ``allennlp.nn.RegularizerApplicator``, optional (default = None)
         A reguralizer to apply to the model's layers.
     """
-    def __init__(self,
-                vocab: Vocabulary,
-                params: Params,
-                regularizer: RegularizerApplicator = None):
-                
-        super(LayerEmdRelation, self).__init__(vocab = vocab, regularizer = regularizer)
-        
-        
+
+    def __init__(self, vocab: Vocabulary, params: Params, regularizer: RegularizerApplicator = None):
+
+        super(LayerEmdRelation, self).__init__(vocab=vocab, regularizer=regularizer)
+
         # Base text Field Embedder
         text_field_embedder_params = params.pop("text_field_embedder")
-        text_field_embedder = BasicTextFieldEmbedder.from_params(vocab=vocab, 
-                                                                params=text_field_embedder_params)
+        text_field_embedder = BasicTextFieldEmbedder.from_params(vocab=vocab, params=text_field_embedder_params)
         self._text_field_embedder = text_field_embedder
 
-        
         ############
         # EMD Stuffs
         ############
         emd_params = params.pop("emd")
-        
+
         # Encoder
         encoder_emd_params = emd_params.pop("encoder")
         encoder_emd = Seq2SeqEncoder.from_params(encoder_emd_params)
-        self._encoder_emd =  encoder_emd
-        
+        self._encoder_emd = encoder_emd
+
         # Tagger EMD - CRF Tagger
         tagger_emd_params = emd_params.pop("tagger")
-        tagger_emd = CrfTagger(vocab = vocab,
-                            text_field_embedder = self._text_field_embedder,
-                            encoder = self._encoder_emd,
-                            label_namespace = tagger_emd_params.pop("label_namespace", "labels"),
-                            constraint_type = tagger_emd_params.pop("constraint_type", None),
-                            dropout = tagger_emd_params.pop("dropout", None),
-                            regularizer = regularizer)
+        tagger_emd = CrfTagger(
+            vocab=vocab,
+            text_field_embedder=self._text_field_embedder,
+            encoder=self._encoder_emd,
+            label_namespace=tagger_emd_params.pop("label_namespace", "labels"),
+            constraint_type=tagger_emd_params.pop("constraint_type", None),
+            dropout=tagger_emd_params.pop("dropout", None),
+            regularizer=regularizer,
+        )
         self._tagger_emd = tagger_emd
-        
-        
+
         ############################
         # Relation Extraction Stuffs
         ############################
         relation_params = params.pop("relation")
-        
+
         # Encoder
         encoder_relation_params = relation_params.pop("encoder")
         encoder_relation = Seq2SeqEncoder.from_params(encoder_relation_params)
-        self._encoder_relation =  encoder_relation
-        
-        shortcut_text_field_embedder_relation = ShortcutConnectTextFieldEmbedder(base_text_field_embedder = self._text_field_embedder,
-                                                                                previous_encoders = [self._encoder_emd])
+        self._encoder_relation = encoder_relation
+
+        shortcut_text_field_embedder_relation = ShortcutConnectTextFieldEmbedder(
+            base_text_field_embedder=self._text_field_embedder, previous_encoders=[self._encoder_emd]
+        )
         self._shortcut_text_field_embedder_relation = shortcut_text_field_embedder_relation
-        
+
         # Tagger: Relation
         tagger_relation_params = relation_params.pop("tagger")
-        tagger_relation = RelationExtractor(vocab = vocab,
-                                            text_field_embedder = self._shortcut_text_field_embedder_relation,
-                                            context_layer = self._encoder_relation,
-                                            d = tagger_relation_params.pop_int("d"),
-                                            l = tagger_relation_params.pop_int("l"),
-                                            n_classes = tagger_relation_params.pop("n_classes"),
-                                            activation = tagger_relation_params.pop("activation"))
-        self._tagger_relation = tagger_relation								
+        tagger_relation = RelationExtractor(
+            vocab=vocab,
+            text_field_embedder=self._shortcut_text_field_embedder_relation,
+            context_layer=self._encoder_relation,
+            d=tagger_relation_params.pop_int("d"),
+            l=tagger_relation_params.pop_int("l"),
+            n_classes=tagger_relation_params.pop("n_classes"),
+            activation=tagger_relation_params.pop("activation"),
+        )
+        self._tagger_relation = tagger_relation
 
         logger.info("Multi-Task Learning Model has been instantiated.")
-        
-    @overrides        
-    def forward(self, 
-                tensor_batch,
-                for_training: bool = False,
-                task_name: str = "ner") -> Dict[str, torch.Tensor]:
+
+    @overrides
+    def forward(self, tensor_batch, for_training: bool = False, task_name: str = "ner") -> Dict[str, torch.Tensor]:
         # pylint: disable=arguments-differ
-        
+
         tagger = getattr(self, "_tagger_%s" % task_name)
         return tagger.forward(**tensor_batch)
-            
+
     @overrides
-    def get_metrics(self,
-                    task_name: str,
-                    reset: bool = False,
-                    full: bool = False) -> Dict[str, float]:
-        
+    def get_metrics(self, task_name: str, reset: bool = False, full: bool = False) -> Dict[str, float]:
+
         task_tagger = getattr(self, "_tagger_" + task_name)
-        return task_tagger.get_metrics(reset)		
-    
-    @classmethod    
-    def from_params(cls,
-                    vocab: Vocabulary,
-                    params: Params,
-                    regularizer: RegularizerApplicator) -> "LayerEmdRelation":
-        return cls(vocab = vocab,
-                params = params,
-				regularizer = regularizer)		
+        return task_tagger.get_metrics(reset)
+
+    @classmethod
+    def from_params(cls, vocab: Vocabulary, params: Params, regularizer: RegularizerApplicator) -> "LayerEmdRelation":
+        return cls(vocab=vocab, params=params, regularizer=regularizer)

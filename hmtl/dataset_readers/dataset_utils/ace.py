@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 TypedSpan = Tuple[int, Tuple[int, int]]  # pylint: disable=invalid-name
 TypedStringSpan = Tuple[str, Tuple[int, int]]  # pylint: disable=invalid-name
 
+
 class ACESentence:
     """
     A class representing the annotations available for a single ACE CONLL-formatted sentence.
@@ -34,12 +35,15 @@ class ACESentence:
         Each element is a tuple composed of (cluster_id, (start_index, end_index)). Indices
         are `inclusive`.
     """
-    def __init__(self,
-                words: List[str],
-                mention_tags: List[str],
-                relations: List[Tuple[str, List[str]]],
-                last_head_token_relations: List[Tuple[str, List[str]]],
-                coref_spans: Set[TypedSpan]):
+
+    def __init__(
+        self,
+        words: List[str],
+        mention_tags: List[str],
+        relations: List[Tuple[str, List[str]]],
+        last_head_token_relations: List[Tuple[str, List[str]]],
+        coref_spans: Set[TypedSpan],
+    ):
         self.words = words
         self.mention_tags = mention_tags
         self.relations = relations
@@ -53,6 +57,7 @@ class ACE:
     have been previously formatted in the format used by the CoNLL format
     (see for instance OntoNotes dataset).
     """
+
     def dataset_iterator(self, file_path: str) -> Iterator[ACESentence]:
         """
         An iterator over the entire dataset, yielding all sentences processed.
@@ -79,12 +84,12 @@ class ACE:
         An iterator over CONLL-formatted files which yields documents, regardless
         of the number of document annotations in a particular file.
         """
-        with codecs.open(file_path, 'r', encoding='utf8') as open_file:
+        with codecs.open(file_path, "r", encoding="utf8") as open_file:
             conll_rows = []
             document: List[ACESentence] = []
             for line in open_file:
                 line = line.strip()
-                if line != '' and not line.startswith('#'):
+                if line != "" and not line.startswith("#"):
                     # Non-empty line. Collect the annotation.
                     conll_rows.append(line)
                 else:
@@ -110,65 +115,59 @@ class ACE:
     def _conll_rows_to_sentence(self, conll_rows: List[str]) -> ACESentence:
         sentence: List[str] = []
         mention_tags: List[str] = []
-        
+
         span_labels: List[List[str]] = []
         current_span_labels: List[str] = []
-        
+
         # Cluster id -> List of (start_index, end_index) spans.
         clusters: DefaultDict[int, List[Tuple[int, int]]] = defaultdict(list)
         # Cluster id -> List of start_indices which are open for this id.
         coref_stacks: DefaultDict[int, List[int]] = defaultdict(list)
-        
+
         for index, row in enumerate(conll_rows):
             conll_components = row.split()
-            
+
             word = conll_components[1]
-            
+
             if not span_labels:
                 span_labels = [[] for _ in conll_components[2:-1]]
                 current_span_labels = [None for _ in conll_components[2:-1]]
-            self._process_span_annotations_for_word(annotations = conll_components[2:-1],
-                                                    span_labels = span_labels,
-                                                    current_span_labels = current_span_labels)
-            
-            #Process coref
-            self._process_coref_span_annotations_for_word(conll_components[-1],
-                                                index,
-                                                clusters,
-                                                coref_stacks)
+            self._process_span_annotations_for_word(
+                annotations=conll_components[2:-1], span_labels=span_labels, current_span_labels=current_span_labels
+            )
+
+            # Process coref
+            self._process_coref_span_annotations_for_word(conll_components[-1], index, clusters, coref_stacks)
 
             sentence.append(word)
-        
-            
+
         mention_tags = iob1_to_bioul(span_labels[0])
-        
-        #Process coref clusters
-        coref_span_tuples: Set[TypedSpan] = {(cluster_id, span)
-                                for cluster_id, span_list in clusters.items()
-                                for span in span_list}
-        
-        
-        #Reformat the labels to only keep the the last token of the head
-        #Cf paper, we model relation between last tokens of heads.
+
+        # Process coref clusters
+        coref_span_tuples: Set[TypedSpan] = {
+            (cluster_id, span) for cluster_id, span_list in clusters.items() for span in span_list
+        }
+
+        # Reformat the labels to only keep the the last token of the head
+        # Cf paper, we model relation between last tokens of heads.
         last_head_token_relations = []
         bioul_relations = []
 
         for relation_frame in span_labels[1:]:
             bioul_relation_frame = iob1_to_bioul(relation_frame)
-            
+
             reformatted_frame = []
             for annotation in bioul_relation_frame:
-                if annotation[:2] in ["L-", "U-"]: 
+                if annotation[:2] in ["L-", "U-"]:
                     reformatted_frame.append(annotation[2:])
-                else: 
+                else:
                     reformatted_frame.append("*")
-                    
+
             last_head_token_relations.append(reformatted_frame)
             bioul_relations.append(bioul_relation_frame)
 
         return ACESentence(sentence, mention_tags, bioul_relations, last_head_token_relations, coref_span_tuples)
-        
-        
+
     @staticmethod
     def _process_mention_tags(annotations: List[str]):
         """
@@ -189,11 +188,11 @@ class ACE:
                 current_span_label = None
             labels.append(bio_label)
         return labels
-        
+
     @staticmethod
-    def _process_span_annotations_for_word(annotations: List[str],
-                                           span_labels: List[List[str]],
-                                           current_span_labels: List[Optional[str]]) -> None:
+    def _process_span_annotations_for_word(
+        annotations: List[str], span_labels: List[List[str]], current_span_labels: List[Optional[str]]
+    ) -> None:
         """
         Given a sequence of different label types for a single word and the current
         span label we are inside, compute the BIO tag for each label and append to a list.
@@ -230,13 +229,14 @@ class ACE:
             # Exiting a span, so we reset the current span label for this annotation.
             if ")" in annotation:
                 current_span_labels[annotation_index] = None
-                
-                
+
     @staticmethod
-    def _process_coref_span_annotations_for_word(label: str,
-                                                 word_index: int,
-                                                 clusters: DefaultDict[int, List[Tuple[int, int]]],
-                                                 coref_stacks: DefaultDict[int, List[int]]) -> None:
+    def _process_coref_span_annotations_for_word(
+        label: str,
+        word_index: int,
+        clusters: DefaultDict[int, List[Tuple[int, int]]],
+        coref_stacks: DefaultDict[int, List[int]],
+    ) -> None:
         """
         For a given coref label, add it to a currently open span(s), complete a span(s) or
         ignore it, if it is outside of all spans. This method mutates the clusters and coref_stacks
