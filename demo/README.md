@@ -6,7 +6,7 @@ This is a demonstration of our NLP system: HMTL is a neural model for resolving 
 
 For a brief introduction to multi-task learning, you can refer to [our blog post](https://medium.com/p/b4e1d5c3faf). Each of the four tasks considered is detailed in the following section. 
 
-The web interface for the demo can be found [here](https://huggingface.co/hmtl/) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine.
+The web interface for the demo can be found [here](https://huggingface.co/hmtl/) for you to try and play with it. HMTL comes with the web visualization client if you prefer to run on your local machine. The demo (and the released weights) are for English.
 
 <img src="https://github.com/huggingface/hmtl/blob/master/demo/HMTL_demo.png" alt="HMTL Demo" width="900"/>
 
