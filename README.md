@@ -2,7 +2,9 @@
 
 **\*\*\*\*\* New November 20th, 2018: Online web demo is available \*\*\*\*\***
 
-We released an [online demo](https://huggingface.co/hmtl/) so that you can play yourself with the model. The code for the web interface is also available in the `demo` folder.
+We released an [online demo](https://huggingface.co/hmtl/) (along with pre-trained weights) so that you can play yourself with the model. The code for the web interface is also available in the `demo` folder.
+
+To download the pre-trained models, please install [git lfs](https://git-lfs.github.com/) and do a `git lfs pull`. The weights of the model will be saved in the model_dumps folder.
 
 
 [__A Hierarchical Multi-Task Approach for Learning Embeddings from Semantic Tasks__](https://arxiv.org/abs/1811.06031)\
