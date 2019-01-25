@@ -199,11 +199,18 @@ if __name__ == "__main__":
         default=False,
         help="Recover a previous training from the state in serialization_dir.",
     )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        required=False,
+        help='Overwrite the output directory if it exists'
+    )
     args = parser.parse_args()
 
     params = Params.from_file(params_file=args.config_file_path)
     serialization_dir = args.serialization_dir
-    create_serialization_dir(params, serialization_dir, args.recover)
+    create_serialization_dir(params, serialization_dir, args.recover, args.force)
 
     serialization_params = deepcopy(params).as_dict(quiet=True)
     with open(os.path.join(serialization_dir, "config.json"), "w") as param_file:

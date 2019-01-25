@@ -79,11 +79,18 @@ if __name__ == "__main__":
         help="Name of the weight file for the pretrained model to fine-tune in the ``pretrained_dir``.",
         type=str,
     )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        required=False,
+        help='Overwrite the output directory if it exists'
+    )
     args = parser.parse_args()
 
     params = Params.from_file(params_file=args.config_file_path)
     serialization_dir = args.serialization_dir
-    create_serialization_dir(params, serialization_dir, False)
+    create_serialization_dir(params, serialization_dir, args.recover, args.force)
 
     serialization_params = deepcopy(params).as_dict(quiet=True)
     with open(os.path.join(serialization_dir, "config.json"), "w") as param_file:

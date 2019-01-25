@@ -10,7 +10,7 @@ from allennlp.data import Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules.token_embedders import Embedding
 from allennlp.modules import FeedForward
-from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder, SpanPruner
+from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder
 from allennlp.modules.span_extractors import SelfAttentiveSpanExtractor, EndpointSpanExtractor
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.training.metrics import MentionRecall, ConllCorefScores
@@ -200,7 +200,7 @@ class CoreferenceCustom(CoreferenceResolver):
             # Compute labels.
             # Shape: (batch_size, num_spans_to_keep, max_antecedents + 1)
             gold_antecedent_labels = self._compute_antecedent_gold_labels(pruned_gold_labels, antecedent_labels)
-            coreference_log_probs = util.last_dim_log_softmax(coreference_scores, top_span_mask)
+            coreference_log_probs = util.masked_log_softmax(coreference_scores, top_span_mask)
             correct_antecedent_log_probs = coreference_log_probs + gold_antecedent_labels.log()
             negative_marginal_log_likelihood = -util.logsumexp(correct_antecedent_log_probs).sum()
 

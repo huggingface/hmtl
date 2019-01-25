@@ -64,7 +64,8 @@ class LayerNerEmdCoref(Model):
             text_field_embedder=self._text_field_embedder,
             encoder=self._encoder_ner,
             label_namespace=tagger_ner_params.pop("label_namespace", "labels"),
-            constraint_type=tagger_ner_params.pop("constraint_type", None),
+            label_encoding=tagger_ner_params.pop("label_encoding", None),
+            constrain_crf_decoding=tagger_ner_params.pop("constrain_crf_decoding", None),
             dropout=tagger_ner_params.pop("dropout", None),
             regularizer=regularizer,
         )
@@ -92,7 +93,8 @@ class LayerNerEmdCoref(Model):
             text_field_embedder=self._shortcut_text_field_embedder,
             encoder=self._encoder_emd,
             label_namespace=tagger_emd_params.pop("label_namespace", "labels"),
-            constraint_type=tagger_emd_params.pop("constraint_type", None),
+            label_encoding=tagger_ner_params.pop("label_encoding", None),
+            constrain_crf_decoding=tagger_ner_params.pop("constrain_crf_decoding", None),
             dropout=tagger_ner_params.pop("dropout", None),
             regularizer=regularizer,
         )
