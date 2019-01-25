@@ -1,307 +1,309 @@
 {
-	"task_ner":{
-		"task_description":{
-			"task_name": "ner",
-			"validation_metric_name": "f1-measure-overall",
-			"validation_metric_decreases": false,
-			"evaluate_on_test": true
-		},
-		
-		"data_params":{
-			"dataset_reader":{
-				"type": "ner_ontonotes",
-				"label_namespace": "ontonotes_ner_labels",
-				"coding_scheme": "BIOUL",
-				"token_indexers": {
-					"tokens": {
-						"type": "single_id",
-						"lowercase_tokens": true
-					},
-					"token_characters":{
-						"type": "characters"
-					},
-					"elmo": {
-						"type": "elmo_characters"
-					}
-				}
-			},
-			
-			
-			"train_data_path": "./data/conll-2012/v4/data/train/",
-			"validation_data_path": "./data/conll-2012/v4/data/development/",
-			"test_data_path": "./data/conll-2012/v4/data/test/",
-			
-			"datasets_for_vocab_creation": ["train"]
-		}
-	},
-	
-	"task_emd":{
-		"task_description":{
-			"task_name": "emd",
-			"validation_metric_name": "f1-measure-overall",
-			"validation_metric_decreases": false,
-			"evaluate_on_test": true
-		},
-		
-		"data_params":{
-			"dataset_reader": {
-				"type": "mention_ace",
-				"label_namespace": "ace_mention_labels",
-				"token_indexers": {
-					"tokens": {
-						"type": "single_id",
-						"lowercase_tokens": true
-					},
-					"token_characters":{
-						"type": "characters"
-					},
-					"elmo": {
-						"type": "elmo_characters"
-					}
-				}
-			},
-			
-			"train_data_path": "./data/ace2005/train/",
-			"validation_data_path": "./data/ace2005/dev/",
-			"test_data_path": "./data/ace2005/test/",
-			
-			"datasets_for_vocab_creation": ["train"]
-		}
-	},
-	
-	"task_relation":{
-		"task_description":{
-			"task_name": "relation",
-			"validation_metric_name": "f1-measure-overall",
-			"validation_metric_decreases": false,
-			"evaluate_on_test": true
-		},
-		
-		"data_params":{
-			"dataset_reader": {
-				"type": "relation_ace",
-				"token_indexers": {
-					"tokens": {
-						"type": "single_id",
-						"lowercase_tokens": true
-					},
-					"token_characters":{
-						"type": "characters"
-					},
-					"elmo": {
-						"type": "elmo_characters"
-					}
-				}
-			},
-		
-		
-			"train_data_path": "./data/ace2005/train/",
-			"validation_data_path": "./data/ace2005/dev/",
-			"test_data_path": "./data/ace2005/test/",
+    "task_ner":{
+        "task_description":{
+            "task_name": "ner",
+            "validation_metric_name": "f1-measure-overall",
+            "validation_metric_decreases": false,
+            "evaluate_on_test": true
+        },
+        
+        "data_params":{
+            "dataset_reader":{
+                "type": "ner_ontonotes",
+                "label_namespace": "ontonotes_ner_labels",
+                "coding_scheme": "BIOUL",
+                "token_indexers": {
+                    "tokens": {
+                        "type": "single_id",
+                        "lowercase_tokens": true
+                    },
+                    "token_characters":{
+                        "type": "characters"
+                    },
+                    "elmo": {
+                        "type": "elmo_characters"
+                    }
+                }
+            },
+            
+            
+            "train_data_path": "./data/conll-2012/v4/data/train/",
+            "validation_data_path": "./data/conll-2012/v4/data/development/",
+            "test_data_path": "./data/conll-2012/v4/data/test/",
+            
+            "datasets_for_vocab_creation": ["train"]
+        }
+    },
+    
+    "task_emd":{
+        "task_description":{
+            "task_name": "emd",
+            "validation_metric_name": "f1-measure-overall",
+            "validation_metric_decreases": false,
+            "evaluate_on_test": true
+        },
+        
+        "data_params":{
+            "dataset_reader": {
+                "type": "mention_ace",
+                "label_namespace": "ace_mention_labels",
+                "token_indexers": {
+                    "tokens": {
+                        "type": "single_id",
+                        "lowercase_tokens": true
+                    },
+                    "token_characters":{
+                        "type": "characters"
+                    },
+                    "elmo": {
+                        "type": "elmo_characters"
+                    }
+                }
+            },
+            
+            "train_data_path": "./data/ace2005/train/",
+            "validation_data_path": "./data/ace2005/dev/",
+            "test_data_path": "./data/ace2005/test/",
+            
+            "datasets_for_vocab_creation": ["train"]
+        }
+    },
+    
+    "task_relation":{
+        "task_description":{
+            "task_name": "relation",
+            "validation_metric_name": "f1-measure-overall",
+            "validation_metric_decreases": false,
+            "evaluate_on_test": true
+        },
+        
+        "data_params":{
+            "dataset_reader": {
+                "type": "relation_ace",
+                "token_indexers": {
+                    "tokens": {
+                        "type": "single_id",
+                        "lowercase_tokens": true
+                    },
+                    "token_characters":{
+                        "type": "characters"
+                    },
+                    "elmo": {
+                        "type": "elmo_characters"
+                    }
+                }
+            },
+        
+        
+            "train_data_path": "./data/ace2005/train/",
+            "validation_data_path": "./data/ace2005/dev/",
+            "test_data_path": "./data/ace2005/test/",
 
-			"datasets_for_vocab_creation": ["train"]
-		}
-	},
-	
-	"task_coref":{
-		"task_description":{
-			"task_name": "coref",
-			"validation_metric_name": "coref_f1",
-			"validation_metric_decreases": false,
-			"evaluate_on_test": true
-		},
-		
-		"data_params":{
-			"dataset_reader": {
-				"type": "coref_ace",
-				"max_span_width": 8,
-				"token_indexers": {
-					"tokens": {
-						"type": "single_id",
-						"lowercase_tokens": true
-					},
-					"token_characters":{
-						"type": "characters"
-					},
-					"elmo": {
-						"type": "elmo_characters"
-					}
-				}
-			},
-		
-		
-			"train_data_path":"./data/ace2005/single_file_train_rahman.gold_conll",
-			"validation_data_path": "./data/ace2005/single_file_dev_rahman.gold_conll",
-			"test_data_path": "./data/ace2005/single_file_test_rahman.gold_conll",
+            "datasets_for_vocab_creation": ["train"]
+        }
+    },
+    
+    "task_coref":{
+        "task_description":{
+            "task_name": "coref",
+            "validation_metric_name": "coref_f1",
+            "validation_metric_decreases": false,
+            "evaluate_on_test": true
+        },
+        
+        "data_params":{
+            "dataset_reader": {
+                "type": "coref_ace",
+                "max_span_width": 8,
+                "token_indexers": {
+                    "tokens": {
+                        "type": "single_id",
+                        "lowercase_tokens": true
+                    },
+                    "token_characters":{
+                        "type": "characters"
+                    },
+                    "elmo": {
+                        "type": "elmo_characters"
+                    }
+                }
+            },
+        
+        
+            "train_data_path":"./data/ace2005/single_file_train_rahman.gold_conll",
+            "validation_data_path": "./data/ace2005/single_file_dev_rahman.gold_conll",
+            "test_data_path": "./data/ace2005/single_file_test_rahman.gold_conll",
 
-			"datasets_for_vocab_creation": ["train"]
-		}
-	},
-	
-	"model": {
-		"type": "hmtl",
-		
-		"text_field_embedder": {
-			"token_embedders": {
-				"tokens": {
-					"type": "embedding",
-					"pretrained_file": "./data/glove/glove.6B.100d.txt.gz",
-					"embedding_dim": 100,
-					"trainable": true
-				},
-				"elmo": {
-					"type": "elmo_token_embedder",
-					"options_file": "./data/elmo/2x4096_512_2048cnn_2xhighway_options.json",
-					"weight_file": "./data/elmo/2x4096_512_2048cnn_2xhighway_weights.hdf5",
-					"do_layer_norm": false,
-					"dropout": 0,
-					"requires_grad": false
-				},
-				"token_characters": {
-					"type": "character_encoding",
-					"embedding": {
-						"embedding_dim": 16
-					},
-					"encoder": {
-						"type": "cnn",
-						"embedding_dim": 16,
-						"num_filters": 64,
-						"ngram_filter_sizes": [3]
-					},
-					"dropout": 0.1
-				}
-			}
-		},
-		
-		"ner": {
-			"encoder": {
-				"type": "lstm",
-				"bidirectional": true,
-				"input_size": 1188,
-				"hidden_size": 64,
-				"num_layers": 2,
-				"dropout": 0.2
-			},
-			"tagger": {
+            "datasets_for_vocab_creation": ["train"]
+        }
+    },
+    
+    "model": {
+        "type": "hmtl",
+        
+        "text_field_embedder": {
+            "token_embedders": {
+                "tokens": {
+                    "type": "embedding",
+                    "pretrained_file": "./data/glove/glove.6B.100d.txt.gz",
+                    "embedding_dim": 100,
+                    "trainable": true
+                },
+                "elmo": {
+                    "type": "elmo_token_embedder",
+                    "options_file": "./data/elmo/2x4096_512_2048cnn_2xhighway_options.json",
+                    "weight_file": "./data/elmo/2x4096_512_2048cnn_2xhighway_weights.hdf5",
+                    "do_layer_norm": false,
+                    "dropout": 0,
+                    "requires_grad": false
+                },
+                "token_characters": {
+                    "type": "character_encoding",
+                    "embedding": {
+                        "embedding_dim": 16
+                    },
+                    "encoder": {
+                        "type": "cnn",
+                        "embedding_dim": 16,
+                        "num_filters": 64,
+                        "ngram_filter_sizes": [3]
+                    },
+                    "dropout": 0.1
+                }
+            }
+        },
+        
+        "ner": {
+            "encoder": {
+                "type": "lstm",
+                "bidirectional": true,
+                "input_size": 1188,
+                "hidden_size": 64,
+                "num_layers": 2,
+                "dropout": 0.2
+            },
+            "tagger": {
 				"label_namespace": "ontonotes_ner_labels",
-				"constraint_type": "BIOUL",
-				"dropout": 0.2 		
-			}
-		},
-		
-		"emd": {
-			"encoder": {
-				"type": "lstm",
-				"bidirectional": true,
-				"input_size": 1316,
-				"hidden_size": 64,
-				"num_layers": 2,
-				"dropout": 0.2
-			},
-			"tagger": {
-				"label_namespace": "ace_mention_labels",
-				"constraint_type": "BIOUL",
-				"dropout": 0.2 
-			}
-		},
-		
-		"relation": {
-			"encoder": {
-				"type": "lstm",
-				"bidirectional": true,
-				"input_size": 1316,
-				"hidden_size": 64,
-				"num_layers": 3,
-				"dropout": 0.2
-			},
-			"tagger": {
-				"d": 64,
-				"l": 64,
-				"n_classes": 6,
-				"activation": "relu"
-			}
-		},
-		
-		"coref": {
-			"encoder": {
-				"type": "lstm",
-				"bidirectional": true,
-				"input_size": 1316,
-				"hidden_size": 200,
-				"num_layers": 1,
-				"dropout": 0.2
-			},
-			"tagger": {
-				"mention_feedforward": {
-					"input_dim": 2136,
-					"num_layers": 2,
-					"hidden_dims": 150,
-					"activations": "relu",
-					"dropout": 0.3
-				},
-				"antecedent_feedforward": {
-					"input_dim": 6428,
-					"num_layers": 2,
-					"hidden_dims": 150,
-					"activations": "relu",
-					"dropout": 0.3
-				},
-				"initializer": [
-					[".*linear_layers.*weight", {"type": "xavier_normal"}],
-					[".*scorer._module.weight", {"type": "xavier_normal"}],
-					["_distance_embedding.weight", {"type": "xavier_normal"}],
-					["_span_width_embedding.weight", {"type": "xavier_normal"}],
-					["_context_layer._module.weight_ih.*", {"type": "xavier_normal"}],
-					["_context_layer._module.weight_hh.*", {"type": "orthogonal"}]
-				],
-				"lexical_dropout": 0.5,
-				"feature_size": 20,
-				"max_span_width": 8,
-				"spans_per_word": 0.4,
-				"max_antecedents": 70,
-				"eval_on_gold_mentions": false
-			}
-		}
-	},
-	
-	"iterators": {
-		"iterator": {
-			"type": "basic",
-			"batch_size": 32
-		},
-		"iterator_relation": {
-			"type": "basic",
-			"batch_size": 4
-		},
-		"iterator_coref": {
-			"type": "bucket",
-			"sorting_keys": [["text", "num_tokens"]],
-			"padding_noise": 0.0,
-			"batch_size": 1
-		  }
-	},
-	
-	"multi_task_trainer": {
-		"type": "sampler_multi_task_trainer",
-		"sampling_method": "proportional",
-		"patience": 10,
-		"num_epochs": 100,
-		"min_lr": "1e-7",
-		"grad_norm": 5.0,
-		"grad_clipping": 10.0,
-		"cuda_device": 0,
-		"optimizer": {
-			"type": "adam", 
-			"lr": 0.001
-		},
-		"scheduler": {
-			"type": "reduce_on_plateau", 
-			"mode": "min", 
-			"factor": 0.5,
-			"patience": 5, 
-			"threshold": 0.0001,
-			"threshold_mode": "abs", 
-			"verbose": true
-		}
-	}
+				"label_encoding": "BIOUL",
+				"constrain_crf_decoding": true,
+				"dropout": 0.2  		
+            }
+        },
+        
+        "emd": {
+            "encoder": {
+                "type": "lstm",
+                "bidirectional": true,
+                "input_size": 1316,
+                "hidden_size": 64,
+                "num_layers": 2,
+                "dropout": 0.2
+            },
+            "tagger": {
+                "label_namespace": "ace_mention_labels",
+                "label_encoding": "BIOUL",
+                "constrain_crf_decoding": true,
+                "dropout": 0.2 
+            }
+        },
+        
+        "relation": {
+            "encoder": {
+                "type": "lstm",
+                "bidirectional": true,
+                "input_size": 1316,
+                "hidden_size": 64,
+                "num_layers": 3,
+                "dropout": 0.2
+            },
+            "tagger": {
+                "d": 64,
+                "l": 64,
+                "n_classes": 6,
+                "activation": "relu"
+            }
+        },
+        
+        "coref": {
+            "encoder": {
+                "type": "lstm",
+                "bidirectional": true,
+                "input_size": 1316,
+                "hidden_size": 200,
+                "num_layers": 1,
+                "dropout": 0.2
+            },
+            "tagger": {
+                "mention_feedforward": {
+                    "input_dim": 2136,
+                    "num_layers": 2,
+                    "hidden_dims": 150,
+                    "activations": "relu",
+                    "dropout": 0.3
+                },
+                "antecedent_feedforward": {
+                    "input_dim": 6428,
+                    "num_layers": 2,
+                    "hidden_dims": 150,
+                    "activations": "relu",
+                    "dropout": 0.3
+                },
+                "initializer": [
+                    [".*linear_layers.*weight", {"type": "xavier_normal"}],
+                    [".*scorer._module.weight", {"type": "xavier_normal"}],
+                    ["_distance_embedding.weight", {"type": "xavier_normal"}],
+                    ["_span_width_embedding.weight", {"type": "xavier_normal"}],
+                    ["_context_layer._module.weight_ih.*", {"type": "xavier_normal"}],
+                    ["_context_layer._module.weight_hh.*", {"type": "orthogonal"}]
+                ],
+                "lexical_dropout": 0.5,
+                "feature_size": 20,
+                "max_span_width": 8,
+                "spans_per_word": 0.4,
+                "max_antecedents": 70,
+                "eval_on_gold_mentions": false
+            }
+        }
+    },
+    
+    "iterators": {
+        "iterator": {
+            "type": "basic",
+            "batch_size": 32
+        },
+        "iterator_relation": {
+            "type": "basic",
+            "batch_size": 4
+        },
+        "iterator_coref": {
+            "type": "bucket",
+            "sorting_keys": [["text", "num_tokens"]],
+            "padding_noise": 0.0,
+            "batch_size": 1
+          }
+    },
+    
+    "multi_task_trainer": {
+        "type": "sampler_multi_task_trainer",
+        "sampling_method": "proportional",
+        "patience": 10,
+        "num_epochs": 100,
+        "min_lr": "1e-7",
+        "grad_norm": 5.0,
+        "grad_clipping": 10.0,
+        "cuda_device": 0,
+        "optimizer": {
+            "type": "adam", 
+            "lr": 0.001
+        },
+        "scheduler": {
+            "type": "reduce_on_plateau", 
+            "mode": "min", 
+            "factor": 0.5,
+            "patience": 5, 
+            "threshold": 0.0001,
+            "threshold_mode": "abs", 
+            "verbose": true
+        }
+    }
 }
