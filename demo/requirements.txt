@@ -1,5 +1,0 @@
-emoji==0.5.1
-falcon==1.4.1
-gunicorn==19.9.0
-python-mimeparse==1.6.0
-statsd==3.3.0
