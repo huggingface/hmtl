@@ -38,7 +38,7 @@ h5py==2.8.0
 idna==2.7
 imagesize==1.1.0
 ItsDangerous==1.1.0
-Jinja2==2.10
+Jinja2==2.11.3
 jmespath==0.9.3
 jsondiff==1.1.1
 jsonnet==0.10.0
