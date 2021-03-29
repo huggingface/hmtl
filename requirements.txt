@@ -66,7 +66,7 @@ pyaml==17.12.1
 pyasn1==0.4.4
 pycparser==2.19
 pycryptodome==3.6.6
-Pygments==2.2.0
+Pygments==2.7.4
 pyparsing==2.2.2
 pytest==3.9.1
 pytest-pythonpath==0.7.3
