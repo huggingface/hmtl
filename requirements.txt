@@ -24,7 +24,7 @@ dill==0.2.8.2
 docker==3.5.1
 docker-pycreds==0.3.0
 docutils==0.14
-ecdsa==0.13
+ecdsa==0.13.3
 editdistance==0.5.2
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz
 flaky==3.4.0
