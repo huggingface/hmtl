@@ -73,7 +73,7 @@ pytest-pythonpath==0.7.3
 python-dateutil==2.7.3
 python-jose==2.0.2
 pytz==2017.3
-PyYAML==3.13
+PyYAML==5.4
 regex==2018.1.10
 requests==2.20.0
 responses==0.10.1
