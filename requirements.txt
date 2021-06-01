@@ -94,7 +94,7 @@ torch==0.4.1
 tqdm==4.28.1
 ujson==1.35
 Unidecode==1.0.22
-urllib3==1.24
+urllib3==1.26.5
 wcwidth==0.1.7
 websocket-client==0.53.0
 Werkzeug==0.14.1
