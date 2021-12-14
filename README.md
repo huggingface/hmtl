@@ -30,7 +30,7 @@ The main dependencies are:
 
 The code works with __Python 3.6__. A stable version of the dependencies is listed in `requirements.txt`.
 
-You can quickly setup a working environment by calling the script `./script/machine_setup.sh`. It installs Python 3.6, creates a clean virtual environment, and installs all the required dependencies (listed in `requirements.txt`). Please adapt the script depending on your needs.
+You can quickly setup a working environment by calling the script `./scripts/machine_setup.sh`. It installs Python 3.6, creates a clean virtual environment, and installs all the required dependencies (listed in `requirements.txt`). Please adapt the script depending on your needs.
 
 ## Example usage
 
