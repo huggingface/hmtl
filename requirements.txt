@@ -28,7 +28,7 @@ ecdsa==0.13
 editdistance==0.5.2
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz
 flaky==3.4.0
-Flask==0.12.4
+Flask==2.3.2
 Flask-Cors==3.0.3
 ftfy==5.5.0
 future==0.16.0
