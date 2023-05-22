@@ -75,7 +75,7 @@ python-jose==2.0.2
 pytz==2017.3
 PyYAML==3.13
 regex==2018.1.10
-requests==2.20.0
+requests==2.31.0
 responses==0.10.1
 rsa==3.4.2
 s3transfer==0.1.13
