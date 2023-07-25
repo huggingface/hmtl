@@ -10,7 +10,7 @@ biscuits==0.1.1
 boto==2.49.0
 boto3==1.9.28
 botocore==1.12.28
-certifi==2018.10.15
+certifi==2023.7.22
 cffi==1.11.2
 chardet==3.0.4
 Click==7.0
