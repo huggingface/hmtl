@@ -17,7 +17,7 @@ Click==7.0
 colorama==0.3.9
 conllu==0.11
 cookies==2.2.1
-cryptography==2.3.1
+cryptography==41.0.3
 cymem==2.0.2
 cytoolz==0.9.0.1
 dill==0.2.8.2
